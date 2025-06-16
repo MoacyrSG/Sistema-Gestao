@@ -19,4 +19,4 @@ pytz==2024.1
 wtforms_sqlalchemy==0.3
 Flask-Mail==0.9.1
 reportlab==4.1.0
-psycopg2-binary
+psycopg2-binary==2.9.6
