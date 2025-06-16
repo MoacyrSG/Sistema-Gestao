@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório de Reservas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Reset de estilo */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to bottom, #e3f2fd, #ffffff);
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Cabeçalho fixo */
+        header {
+            background: linear-gradient(90deg, #0066ff, #33ccff);
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-logo img {
+            width: 50px;
+            height: 50px;
+            margin-right: 15px;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        .header-logo h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        header .user-info {
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Conteúdo */
+        main {
+            width: 100%;
+            max-width: 1200px;
+            margin: 120px auto;
+            padding: 40px 30px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Tabelas */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        table th, table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #0072ff;
+            color: white;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+        }
+
+        table td {
+            background-color: #f9f9f9;
+            color: #555;
+            font-size: 1rem;
+        }
+
+        table tr:nth-child(even) td {
+            background-color: #f1f1f1;
+        }
+
+        table tr:hover td {
+            background-color: #e6f7ff;
+        }
+
+        .btn-submit {
+            grid-column: span 2;
+            padding: 12px 20px;
+            font-size: 1.1rem;
+            color: white;
+            background: linear-gradient(90deg, #0056b3, #007bff);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: background 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-submit:hover {
+            background: linear-gradient(90deg, #004080, #0056b3);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 15px;
+            background-color: #007bff; /* Azul bonito */
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: background 0.3s, transform 0.2s;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-back i {
+            font-size: 1.2rem;
+        }
+        
+        .btn-back:hover {
+            background-color: #0056b3; /* Azul mais escuro no hover */
+            transform: scale(1.05);
+        }
+
+        .logout-btn {
+            color: white;
+            background: #003366;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            border: none;
+            border-radius: 6px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .logout-btn:hover {
+            background: #002244;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            main {
+                padding: 25px;
+                margin-top: 80px;
+            }
+
+            table th, table td {
+                padding: 10px 12px;
+            }
+
+            .btn-submit {
+                width: 100%;
+            }
+        }
+
+        /* Botão Gerar PDF */
+        .btn-pdf {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 15px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: white;
+            background: #dc3545; /* Vermelho para representar PDF */
+            border: none;
+            border-radius: 6px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn-pdf:hover {
+            background: #b52a27;
+            transform: scale(1.05);
+        }
+
+        /* Ícone dentro do botão */
+        .btn-pdf i {
+            margin-right: 8px;
+            font-size: 1rem;
+        }
+
+        /* Contêiner do título e botão */
+        .report-header {
+            display: flex;
+            justify-content: space-between; /* Mantém o título à esquerda e o botão à direita */
+            align-items: center; /* Centraliza verticalmente */
+            margin-bottom: 20px;
+        }
+
+    </style>
+
+    <script>
+        // Script para filtrar o relatório por ano
+        function filtrarRelatorio() {
+            var anoSelecionado = document.getElementById("ano").value;
+            var linhas = document.querySelectorAll("tr[data-ano]");
+            
+            linhas.forEach(function(linha) {
+                if (linha.getAttribute("data-ano") === anoSelecionado) {
+                    linha.style.display = "table-row";
+                } else {
+                    linha.style.display = "none";
+                }
+            });
+        }
+    
+        // Inicializa filtrando o primeiro ano disponível
+        window.onload = function() {
+            // Preenche o filtro com o primeiro ano disponível
+            document.getElementById("ano").value = "{{ anos_disponiveis[0] }}";
+            filtrarRelatorio();  // Filtra automaticamente
+    
+            // Adiciona evento de clique para mostrar detalhes das reservas
+            document.querySelectorAll('tr[data-mes]').forEach(function(row) {
+                row.addEventListener('click', function() {
+                    const mes = this.getAttribute('data-mes');  // Obtém o mês clicado
+                    const detalhes = document.querySelectorAll('tr[data-mes="'+ mes +'"].detalhe_reserva');  // Seleciona todas as linhas de reservas para o mês
+    
+                    detalhes.forEach(function(detalhe) {
+                        // Alterna a visibilidade das linhas de detalhes de reserva
+                        detalhe.style.display = detalhe.style.display === 'none' ? 'table-row' : 'none';
+                    });
+                });
+            });
+        };
+    </script>
+</head>
+<body>
+    <header>
+        <div class="header-logo">
+            <img src="{{ url_for('static', filename='assets/imagens/logo_coutinho.png') }}" alt="Logo da Coutinho Excursões">
+            <h1>Coutinho Excursões</h1>
+        </div>
+        <div class="user-info">
+            <span>Bem-vindo, {{ current_user.username }}!</span>
+            <a href="{{ url_for('main.logout') }}" class="logout-btn">Sair</a>
+        </div>
+    </header>
+
+    <main>
+        <a href="{{ url_for('main.index') }}" class="btn-back"><i class="fas fa-arrow-left"></i> Voltar</a>
+
+        <div class="report-header">
+            <h2>Relatório de Reservas</h2>
+    
+            <a href="{{ url_for('main.gerar_relatorio_reservas', ano=ano_selecionado) }}" class="btn-pdf">
+                <i class="fas fa-file-pdf"></i> Gerar PDF
+            </a>   
+        </div>      
+        
+        <form method="get" action="{{ url_for('main.relatorios_reservas') }}" class="d-flex align-items-center gap-2">
+            <div class="form-group mb-0 d-flex align-items-center">
+                <label for="ano" class="fw-bold text-muted me-2 mb-0">Ano:</label>
+                <select name="ano" id="ano" class="form-select" 
+                    style="width: 120px; font-size: 16px; padding: 6px 10px;" 
+                    onchange="filtrarRelatorio()">
+                    {% for ano in anos_disponiveis %}
+                        <option value="{{ ano }}" {% if ano == ano_selecionado %}selected{% endif %}>{{ ano }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary btn-sm">
+                <i class="fas fa-filter me-1"></i> Filtrar
+            </button>
+        </form>        
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Mês</th>
+                    <th>Reservas</th>
+                    <th>Total Vendido (R$)</th>
+                    <th>Lucro (R$)</th>
+                </tr>
+            </thead>
+            <tbody id="relatorioBody">
+                {% for mes, dados in dados_relatorio.items() %}
+                    <tr data-mes="{{ mes }}" data-ano="{{ ano_selecionado }}" class="mes-row">
+                        <td>{{ mes }}</td>
+                        <td>{{ dados.quantidade }}</td>
+                        <td>R$ {{ "{:,.2f}".format(dados.total) }}</td>
+                        <td>R$ {{ "{:,.2f}".format(dados.lucro) }}</td>
+                    </tr>
+        
+                    {% if dados.quantidade > 0 %}
+                        {% for reserva in dados.reservas %}
+                            <tr class="detalhe_reserva" style="display:none;" data-mes="{{ mes }}" data-ano="{{ ano_selecionado }}">
+                                <td colspan="4">
+                                    <strong>Reserva:</strong> {{ reserva.nome_cliente }}<br>
+                                    <strong>Valor:</strong> R$ {{ "{:,.2f}".format(reserva.valor_total) }}&emsp;
+                                    <strong>Data da Ida:</strong> {{ reserva.data_ida.strftime('%d/%m/%Y') }}&emsp;
+                                    <strong>Data da Volta:</strong> {{ reserva.data_volta.strftime('%d/%m/%Y') }}&emsp;
+                                    <strong>Lucro:</strong> {{ "{:,.2f}".format(reserva.lucro) }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>        
+    </main>
+</body>
+</html>

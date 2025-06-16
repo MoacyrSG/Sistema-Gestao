@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Reserva</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        /* Reset de estilo */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to bottom, #e3f2fd, #ffffff);
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Cabeçalho fixo */
+        header {
+            background: linear-gradient(90deg, #0066ff, #33ccff);
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-logo img {
+            width: 50px;
+            height: 50px;
+            margin-right: 15px;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        .header-logo h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        header .user-info {
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Conteúdo */
+        main {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 120px 20px 40px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Formulário */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px; /* Espaçamento entre os campos */
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background: #f9f9f9;
+            transition: 0.3s ease;
+        }
+
+        input:focus, select:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+            outline: none;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 12px;
+            font-size: 1.1rem;
+            color: white;
+            background: linear-gradient(90deg, #0056b3, #007bff);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        .btn-submit:hover {
+            background: linear-gradient(90deg, #004080, #0056b3);
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 15px;
+            background-color: #007bff; /* Azul bonito */
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: background 0.3s, transform 0.2s;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-back i {
+            font-size: 1.2rem;
+        }
+        
+        .btn-back:hover {
+            background-color: #0056b3; /* Azul mais escuro no hover */
+            transform: scale(1.05);
+        }
+
+        .logout-btn {
+            color: white;
+            background: #003366;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            border: none;
+            border-radius: 6px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .logout-btn:hover {
+            background: #002244;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn-tipo {
+            width: 120px;
+        }
+        .btn-tipo.active {
+            background-color: #007bff;
+            color: white;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            form {
+                flex-direction: column;
+            }
+
+            .btn-submit {
+                width: 100%;
+            }
+        }
+
+        .form-grid-duas-colunas {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+    </style>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let tipoReserva = document.querySelector("#tipo_reserva");
+            let pacoteSection = document.getElementById("pacoteSection");
+    
+            function togglePacote() {
+                if (tipoReserva.value === "Pacote") {
+                    pacoteSection.classList.remove("d-none");
+                } else {
+                    pacoteSection.classList.add("d-none");
+                }
+            }
+    
+            tipoReserva.addEventListener("change", togglePacote);
+            togglePacote();  // Garantir que a seção já esteja visível se necessário
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let tipoReserva = "{{ tipo_reserva }}";
+            let opcoesPacote = {{ opcoes_pacote | tojson }};
+    
+            if (tipoReserva === "grupo") {
+                document.getElementById("grupoSection").classList.remove("d-none");
+                document.getElementById("pacoteSection").classList.add("d-none");
+            } else {
+                document.getElementById("pacoteSection").classList.remove("d-none");
+                document.getElementById("grupoSection").classList.add("d-none");
+    
+                opcoesPacote.forEach(opcao => {
+                    let checkbox = document.getElementById("pacote" + opcao.charAt(0).toUpperCase() + opcao.slice(1));
+                    if (checkbox) {
+                        checkbox.checked = true;
+                        document.getElementById(opcao + "Section").classList.remove("d-none");
+                    }
+                });
+            }
+        });
+    </script>
+
+    <script>
+        function adicionarHospede() {
+            let hospedesList = document.getElementById('hospedes-list');
+            let index = hospedesList.children.length;
+            let csrfToken = "{{ form.csrf_token._value() }}";  // Obtém o valor do token CSRF
+
+            let template = `
+                <div class="hospede-item">
+                    <input type="hidden" name="hospedes-${index}-csrf_token" value="${csrfToken}">
+
+                    <label for="hospedes-${index}-nome">Nome</label>
+                    <input type="text" name="hospedes-${index}-nome" class="form-control" required>
+                    <button type="button" class="btn-remove-hospede" onclick="removerHospede(this)">Remover</button>
+                </div>
+            `;
+            hospedesList.insertAdjacentHTML('beforeend', template);
+        }
+    
+        function removerHospede(button) {
+            button.parentElement.remove();
+        }
+    </script>
+</head>
+
+<body>
+    <header>
+        <div class="header-logo">
+            <img src="{{ url_for('static', filename='assets/imagens/logo_coutinho.png') }}" alt="Logo da Coutinho Excursões">
+            <h1>Coutinho Excursões</h1>
+        </div>
+        <div class="user-info">
+            <span>Bem-vindo, {{ current_user.username }}!</span>
+            <a href="{{ url_for('main.logout') }}" class="logout-btn">Sair</a>
+        </div>
+    </header>
+
+    <main>
+        <a href="{{ url_for('main.listar_reserva') }}" class="btn-back"><i class="fas fa-arrow-left"></i> Voltar</a>
+
+        <h1>Editar Reserva</h1>
+        <form method="POST" action="{{ url_for('main.editar_reserva', id=reserva.id) }}">
+            {{ form.hidden_tag() }}
+    
+            <!-- Informações Gerais -->
+            <div class="form-grid-duas-colunas">
+                <div class="mb-3">
+                    <label for="cliente_id">Cliente</label>
+                    <input type="text" class="form-control" name="reserva.nome_cliente" value="{{ reserva.nome_cliente }}">
+                </div>
+                <div class="mb-3">
+                    <label for="id_reserva">Número da Reserva</label>
+                    {{ form.id_reserva(class="form-control") }}
+                </div>
+                <div class="mb-3">
+                    <label for="num_adultos">Número de Adultos</label>
+                    {{ form.num_adultos(class="form-control") }}
+                </div>
+                <div class="mb-3">
+                    <label for="num_criancas">Número de Crianças</label>
+                    {{ form.num_criancas(class="form-control") }}
+                </div>
+                <div class="mb-3">
+                    <label for="num_criancas_free">Número de Crianças Free</label>
+                    {{ form.num_criancas_free(class="form-control") }}
+                </div>
+                <div class="mb-3">
+                    <label for="confirmado_por">Confirmada por</label>
+                    {{ form.confirmada_por(class="form-control") }}
+                </div>
+                <div class="mb-3">
+                    <label for="status">Status da Reserva</label>
+                    {{ form.status(class="form-control") }}
+                </div>
+                <div class="mb-3">
+                    <label for="pensao">Pensão</label>
+                    {{ form.pensao(class="form-control") }}
+                </div>
+                <div class="mb-3">
+                    <label for="garante_no_show">Garante No-Show</label>
+                    {{ form.garante_no_show(class="form-control") }}
+                </div>
+                <div class="mb-3">
+                    <label for="data_ida">Data de Ida</label>
+                    {{ form.data_ida(class="form-control") }}
+                </div>
+                <div class="mb-3">
+                    <label for="data_volta">Data de Volta</label>
+                    {{ form.data_volta(class="form-control") }}
+                </div>
+                <div class="mb-3">
+                    <label for="horario_ida">Horário de Ida</label>
+                    {{ form.horario_ida(class="form-control") }}
+                </div>
+                <div class="mb-3">
+                    <label for="horario_chegada">Horário de Chegada</label>
+                    {{ form.horario_chegada(class="form-control") }}
+                </div>
+                <div class="mb-3">
+                    <label for="evento">Terá algum evento nesta viagem?</label>
+                    {{ form.evento(class="form-control") }}
+                </div>
+                <div class="mb-3">
+                    <label for="descricao">Informações Adicionais</label>
+                    {{ form.descricao(class="form-control") }}
+                </div>
+                <div class="mb-3" id="hospedes-list">
+                    {% for subform in form.hospedes %}
+                        <div class="hospede-item">
+                            {{ subform.hidden_tag() }}
+                            {{ subform.nome.label }} {{ subform.nome(class="form-control") }}
+                            <button type="button" class="btn btn-danger" onclick="removerHospede(this)">Remover</button>
+                        </div>
+                    {% endfor %}
+                </div>
+    
+                <button type="button" class="btn btn-primary" onclick="adicionarHospede()">Adicionar Hóspede</button>
+
+                <div class="mb-3">
+                    <label class="form-label">Tipo de Reserva:</label>
+                    <input type="text" class="form-control" value="{{ tipo_reserva | capitalize }}" readonly>
+                </div>
+            </div>
+            
+            {% if tipo_reserva == 'grupo' %}
+                <div class="mb-3">
+                    <label class="form-label">Nome do Grupo:</label>
+                    <input type="text" class="form-control" name="grupo_id" value="{{ reserva.nome_grupo }}">
+                </div>
+            {% endif %}
+            
+            {% if tipo_reserva == 'pacote' %}
+            
+                {% if 'aereo' in opcoes_pacote %}
+                    <h4>Pacote Aéreo</h4>
+                    <div class="form-grid-duas-colunas">
+                        <div class="mb-3">
+                            <label class="form-label">Companhia:</label>
+                            <input type="text" class="form-control" name="companhia" value="{{ reserva.companhia }}">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Número do Voo:</label>
+                            <input type="text" class="form-control" name="numero_voo" value="{{ reserva.numero_voo }}">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Data de Ida:</label>
+                            <input type="date" class="form-control" name="data_ida" value="{{ reserva.data_ida }}">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Data de Volta:</label>
+                            <input type="date" class="form-control" name="data_volta" value="{{ reserva.data_volta }}">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Origem:</label>
+                            <input type="text" class="form-control" name="origem" value="{{ reserva.origem }}">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Destino:</label>
+                            <input type="text" class="form-control" name="destino" value="{{ reserva.destino }}">
+                        </div>
+                    </div>
+                    <hr>
+                {% endif %}
+            
+                {% if 'hospedagem' in opcoes_pacote %}
+                    <h4>Pacote de Hospedagem</h4>
+                    <div class="form-grid-duas-colunas">
+                        <div>
+                            {{ form.hospedagem_id.label }} 
+                            {{ form.hospedagem_id() }}
+                            {% for error in form.hospedagem_id.errors %}
+                                <span style="color: red;">[{{ error }}]</span>
+                            {% endfor %}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Tipo de Apartamento:</label>
+                            <input type="text" class="form-control" name="tipo_apart" value="{{ reserva.tipo_apart }}">
+                        </div>
+                    </div>
+                    <hr>
+                {% endif %}
+            
+                {% if 'transporte' in opcoes_pacote %}
+                    <h4>Pacote de Transporte</h4>
+                    <div class="mb-3">
+                        <label class="form-label">Informações:</label>
+                        <textarea class="form-control" name="transporte_info">{{ reserva.transporte_info }}</textarea>
+                    </div>
+                    <hr>
+                {% endif %}
+            
+                {% if 'seguro' in opcoes_pacote %}
+                    <h4>Pacote de Seguro</h4>
+                    <div class="mb-3">
+                        <label class="form-label">Informações:</label>
+                        <textarea class="form-control" name="seguro_info">{{ reserva.seguro_info }}</textarea>
+                    </div>
+                    <hr>
+                {% endif %}
+            
+                {% if 'servico' in opcoes_pacote %}
+                    <h4>Pacote de Serviços</h4>
+                    <div class="mb-3">
+                        <label class="form-label">Informações:</label>
+                        <textarea class="form-control" name="servico_info">{{ reserva.servico_info }}</textarea>
+                    </div>
+                    <hr>
+                {% endif %}
+            
+            {% endif %}
+
+            <div class="form-grid-duas-colunas">
+                <div class="form-group">
+                    <label for="diaria">Diária</label>
+                    <input type="text" class="form-control" id="diaria" name="diaria" value="{{ reserva.diaria }}">
+                </div> 
+
+                <div class="form-group">
+                    <label for="diaria_pessoa">Diária por Pessoa</label>
+                    <input type="text" class="form-control" id="diaria_pessoa" name="diaria_pessoa" value="{{ reserva.diaria_pessoa }}">
+                </div> 
+
+                <div class="form-group">
+                    <label for="valor_total">Depósitos Negociados</label>
+                    <input type="text" class="form-control" id="valor_total" name="valor_total" value="{{ reserva.valor_total }}">
+                </div> 
+                
+                <div class="form-group">
+                    <label for="depositos_confirmados">Depósitos Confirmados</label>
+                    <input type="text" class="form-control" id="depositos_confirmados" name="depositos_confirmados" value="{{ reserva.depositos_confirmados }}">
+                </div>         
+
+                <div class="form-group">
+                    <label for="lucro">Lucro</label>
+                    <input type="text" class="form-control" id="lucro" name="lucro" value="{{ reserva.lucro }}">
+                </div>
+            </div>
+    
+            <button type="submit" class="btn btn-success mt-3">Salvar Reserva</button>
+        </form>
+    </main>    
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

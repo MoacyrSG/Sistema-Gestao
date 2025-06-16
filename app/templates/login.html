@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Reset de estilo */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(120deg, #001f54, #003d99);
+            color: #f3f4f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-container {
+            background: linear-gradient(145deg, #0066ff, #33ccff);
+            padding: 40px 30px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 400px;
+            text-align: center; /* Centraliza logo e título */
+        }
+
+        .login-container .header-logo {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .login-container .header-logo img {
+            width: 120px; /* Tamanho maior para o logo */
+            height: 120px;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        .login-container .header-logo h2 {
+            font-size: 2rem; /* Tamanho maior para o nome */
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* Alinha os campos à esquerda */
+        }
+
+        form div {
+            margin-bottom: 20px;
+            width: 100%; /* Garante que os campos ocupem toda a largura */
+        }
+
+        label {
+            font-size: 1rem;
+            margin-bottom: 5px;
+            display: block;
+            text-align: left; /* Alinha a label à esquerda */
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 8px;
+        }
+
+        input[type="submit"] {
+            background: white;
+            color: #0066ff;
+            padding: 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        input[type="submit"]:hover {
+            background: #f3f4f6;
+            transform: translateY(-3px);
+        }
+
+        .login-container p {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .login-container p a {
+            color: white;
+            text-decoration: underline;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .submit-container {
+            display: flex;
+            justify-content: center;
+            width: 100%; /* Garante que o botão ocupe toda a largura disponível */
+            margin-top: 20px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="header-logo">
+            <img src="{{ url_for('static', filename='assets/imagens/logo_coutinho.png') }}" alt="Logo da Coutinho Excursões">
+            <h2>Coutinho Excursões</h2>
+        </div>
+        <form method="POST" action="{{ url_for('main.login') }}">
+            {{ form.hidden_tag() }}
+            
+            <div>
+                <label for="username">{{ form.username.label }}</label>
+                {{ form.username(class="form-control", id="username") }}
+                {% for error in form.username.errors %}
+                    <span class="error-message">{{ error }}</span>
+                {% endfor %}
+            </div>
+
+            <div>
+                <label for="password">{{ form.password.label }}</label>
+                {{ form.password(class="form-control", id="password") }}
+                {% for error in form.password.errors %}
+                    <span class="error-message">{{ error }}</span>
+                {% endfor %}
+            </div>
+
+            <div class="submit-container">
+                {{ form.submit(class="btn-submit") }}
+            </div>
+        </form>
+
+        <p>Não tem uma conta? <a href="{{ url_for('main.register') }}">Registre-se aqui</a></p>
+    </div>
+</body>
+</html>

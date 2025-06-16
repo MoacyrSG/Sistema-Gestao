@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospedagens - Coutinho Excursões</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* Reset de estilo */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to bottom, #e3f2fd, #ffffff);
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(90deg, #0066ff, #33ccff);
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-logo img {
+            width: 50px;
+            height: 50px;
+            margin-right: 15px;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        .header-logo h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        header .user-info {
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Conteúdo */
+        main {
+            padding: 100px 30px 30px;
+            flex: 1;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 15px;
+            background-color: #007bff; /* Azul bonito */
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: background 0.3s, transform 0.2s;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-back i {
+            font-size: 1.2rem;
+        }
+        
+        .btn-back:hover {
+            background-color: #0056b3; /* Azul mais escuro no hover */
+            transform: scale(1.05);
+        }        
+
+        /* Lista de hospedagens */
+        .list-container {
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .list-header, .list-item {
+            display: grid;
+            grid-template-columns: 3fr 2fr 4fr 2fr;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .list-header {
+            font-weight: bold;
+            background-color: #f8f9fa;
+            text-align: center;
+        }
+        
+        .list-item {
+            border-bottom: 1px solid #ddd;
+            transition: background 0.3s;
+        }
+        
+        .list-item div {
+            padding: 8px;
+            text-align: center;
+        }
+        
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .list-item:last-child {
+            border-bottom: none;
+        }
+
+        .list-item:hover {
+            background: #f0f4fa;
+        }
+
+        .list-item div {
+            padding: 0 10px;
+        }
+
+        /* Centraliza apenas a coluna Ações */
+        .list-header div:last-child, 
+        .list-item .actions {
+            display: flex;
+            justify-content: center; /* Centraliza horizontalmente */
+            align-items: center; /* Centraliza verticalmente */
+            gap: 10px; /* Espaçamento entre os botões */
+        }
+
+        /* Botões */
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 12px;
+            font-size: 0.9rem;
+            color: white;
+            background: #0073e6;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #00509e;
+        }
+
+        .btn-danger {
+            background: #d9534f;
+        }
+
+        .btn-danger:hover {
+            background: #b52a27;
+        }
+
+        .btn i {
+            margin-right: 5px;
+        }
+
+        /* Título */
+        .title-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .title-container h1 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .btn-create {
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            background: #0073e6;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        .btn-create:hover {
+            background: #00509e;
+        }
+
+        /* Botão Logout */
+        .logout-btn {
+            color: white;
+            background: #003366;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            border: none;
+            border-radius: 6px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .logout-btn:hover {
+            background: #002244;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .list-header, .list-item {
+                grid-template-columns: 2fr 1fr;
+                font-size: 0.9rem;
+            }
+
+            .list-item .actions {
+                justify-content: center;
+            }
+        }
+
+        /* Paginação */
+        .pagination {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .pagination a {
+            padding: 10px 20px;
+            background-color: #0073e6;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            margin: 0 5px;
+        }
+
+        .pagination a:hover {
+            background-color: #00509e;
+        }
+
+        .pagination span {
+            padding: 10px 20px;
+            background-color: #f0f4fa;
+            border-radius: 4px;
+        }
+    </style>
+
+</head>
+<body>
+    <header>
+        <div class="header-logo">
+            <img src="{{ url_for('static', filename='assets/imagens/logo_coutinho.png') }}" alt="Logo da Coutinho Excursões">
+            <h1>Coutinho Excursões</h1>
+        </div>
+        <div class="user-info">
+            <span>Bem-vindo, {{ current_user.username }}!</span>
+            <a href="{{ url_for('main.logout') }}" class="logout-btn">Sair</a>
+        </div>
+    </header>
+
+    <main>
+        <a href="{{ url_for('main.index') }}" class="btn-back"><i class="fas fa-arrow-left"></i> Voltar</a>
+        
+        <div class="title-container">
+            <h1>Hospedagens Cadastradas</h1>
+            <a class="btn-create" href="{{ url_for('main.cadastrar_hospedagem') }}">
+                <i class="fas fa-plus"></i> Cadastrar Nova Hospedagem
+            </a>
+        </div>    
+        
+        <form method="get" action="{{ url_for('main.listar_hospedagens') }}">
+            <input type="text" name="busca" value="{{ busca }}" placeholder="Pesquisar por nome da hospedagem..." style="padding: 8px; margin-bottom: 20px; width: 100%; font-size: 1rem;">
+            <button type="submit" style="display:none;"></button>
+        </form>  
+
+        {% if hospedagens %}
+        <div class="list-container">
+            <div class="list-header">
+                <div>Nome</div>
+                <div>Tipo</div>
+                <div>Endereço</div>
+                <div>Ações</div>
+            </div>
+            {% for hospedagem in hospedagens %}
+            <div class="list-item">
+                <div>{{ hospedagem.nome }}</div>
+                <div>{{ hospedagem.tipo }}</div>
+                <div>{{ hospedagem.endereco }}</div>
+                <div class="actions">
+                    <a href="{{ url_for('main.editar_hospedagem', id=hospedagem.id) }}" class="btn">
+                        <i class="fas fa-edit"></i> Editar
+                    </a>
+                    <form action="{{ url_for('main.excluir_hospedagem', id=hospedagem.id) }}" method="POST" style="display:inline;">
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja excluir esta hospedagem?');">
+                            <i class="fas fa-trash-alt"></i> Excluir
+                        </button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="pagination">
+            {% if hospedagens.has_prev %}
+                <a href="{{ url_for('main.listar_hospedagens', busca=busca, pagina=hospedagens.prev_num) }}" class="btn">Página Anterior</a>
+            {% endif %}
+            
+            {% if hospedagens.has_next %}
+                <a href="{{ url_for('main.listar_hospedagens', busca=busca, pagina=hospedagens.next_num) }}" class="btn">Próxima Página</a>
+            {% endif %}
+        </div>
+
+
+        {% else %}
+        <p>Nenhuma hospedagem cadastrada.</p>
+        {% endif %}
+    </main>
+</body>
+</html>

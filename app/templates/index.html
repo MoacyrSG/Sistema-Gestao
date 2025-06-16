@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coutinho Excursões - Sistema Interno</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Reset de estilo */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(120deg, #001f54, #003d99);
+            color: #f3f4f6;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        /* Cabeçalho fixo */
+        header {
+            background: linear-gradient(90deg, #0066ff, #33ccff);
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-logo img {
+            width: 50px;
+            height: 50px;
+            margin-right: 15px;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        .header-logo h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        header .user-info {
+            font-size: 1rem;
+            display: flex;
+            align-items: center; /* Alinha o texto e o botão verticalmente */
+            gap: 15px; /* Espaçamento entre o texto e o botão */
+        }
+        
+        .logout-btn {
+            color: white;
+            background: #003366; /* Azul mais escuro */
+            padding: 10px 20px; /* Mais espaçamento interno para o botão */
+            font-size: 0.9rem; /* Tamanho do texto */
+            border: none;
+            border-radius: 6px; /* Borda arredondada */
+            text-decoration: none; /* Remove o sublinhado */
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease; /* Transições suaves */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra leve */
+        }
+        
+        .logout-btn:hover {
+            background: #002244; /* Azul ainda mais escuro para o hover */
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); /* Aumenta a sombra no hover */
+            transform: translateY(-2px); /* Elevação sutil no hover */
+        }                   
+        
+
+        /* Menu lateral */
+        .sidebar {
+            position: fixed;
+            top: 80px;
+            left: 0;
+            height: calc(100% - 80px);
+            width: 260px;
+            background: linear-gradient(180deg, #003d99, #001f54);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 3px 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            font-size: 1.6rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .sidebar a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 15px 20px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            margin: 10px 15px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(10px);
+        }
+
+        /* Área de conteúdo */
+        .content {
+            margin-left: 260px;
+            padding: 100px 30px 30px;
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        .content h1 {
+            font-size: 2.5rem;
+            color: #f3f4f6;
+            margin-bottom: 20px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: linear-gradient(145deg, #0066ff, #33ccff);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            color: white;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .card h2 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            font-size: 1.1rem;
+        }
+
+        .card img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2));
+        }
+
+        /* Botão */
+        .btn {
+            display: inline-block;
+            background: linear-gradient(90deg, #0066ff, #33ccff);
+            color: white;
+            padding: 12px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-top: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn:hover {
+            background: #0044cc;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .submenu {
+            position: relative;
+        }
+    
+        .submenu-btn {
+            display: block;
+            width: 100%;
+            background: none;
+            color: white;
+            text-align: left;
+            padding: 15px 20px;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+            margin: 10px 15px;
+            transition: all 0.3s ease;
+        }
+    
+        .submenu-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+    
+        .submenu-content {
+            display: none;
+            flex-direction: column;
+            padding-left: 40px;
+        }
+    
+        .submenu-content a {
+            padding: 10px 20px;
+            font-size: 1rem;
+            text-decoration: none;
+            color: white;
+            border-radius: 6px;
+            margin: 5px 0;
+            transition: background 0.3s ease;
+        }
+    
+        .submenu-content a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+    
+        /* Para exibir o submenu ao ativar */
+        .submenu.active .submenu-content {
+            display: flex;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+
+            .content {
+                margin-left: 0;
+                padding: 20px;
+            }
+        }
+    </style>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const submenuBtn = document.querySelector(".submenu-btn");
+            const submenu = document.querySelector(".submenu");
+    
+            submenuBtn.addEventListener("click", function () {
+                submenu.classList.toggle("active");
+            });
+        });
+    </script>
+    
+</head>
+<body>
+    <header>
+        <div class="header-logo">
+            <img src="{{ url_for('static', filename='assets/imagens/logo_coutinho.png') }}" alt="Logo da Coutinho Excursões">
+            <h1>Coutinho Excursões</h1>
+        </div>
+        <div class="user-info">
+            <span>Bem-vindo, {{ current_user.username }}!</span>
+            <a href="{{ url_for('main.logout') }}" class="logout-btn">Sair</a>
+        </div>
+    </header>
+
+    <div class="sidebar">
+        <a href="{{ url_for('main.listar_hospedagens') }}">
+            <i class="fas fa-hotel"></i> Hospedagens
+        </a>
+        <a href="{{ url_for('main.listar_clientes') }}">
+            <i class="fas fa-user"></i> Clientes
+        </a>
+        <a href="{{ url_for('main.listar_grupo') }}">
+            <i class="fas fa-users"></i> Grupos
+        </a>
+        <a href="{{ url_for('main.listar_precos') }}">
+            <i class="fas fa-tag"></i> Preços Tabelados
+        </a>
+        <a href="{{ url_for('main.listar_reserva') }}">
+            <i class="fas fa-calendar-alt"></i> Reservas
+        </a>
+    
+        <div class="submenu">
+            <button class="submenu-btn">
+                <i class="fas fa-file-alt"></i> Relatórios
+            </button>
+            <div class="submenu-content">
+                <a href="{{ url_for('main.relatorios_reservas') }}">
+                    <i class="fas fa-calendar"></i> Reservas
+                </a>
+                <a href="{{ url_for('main.relatorios_hospedagens') }}">
+                    <i class="fas fa-bed"></i> Hospedagens
+                </a>
+            </div>
+        </div>
+    </div>    
+    
+
+    <div class="content">
+        <h1>Dashboard</h1>
+        <div class="dashboard-grid">
+            <div class="card" onclick="window.location.href='{{ url_for('main.listar_hospedagens') }}'">
+                <i class="fas fa-hotel fa-3x"></i>
+                <h2>Total de Hospedagens</h2>
+                <p>{{ total_hospedagens }} hospedagens cadastradas.</p>
+            </div>         
+            <div class="card" onclick="window.location.href='{{ url_for('main.reservas_ativas') }}'">
+                <i class="fas fa-calendar-check fa-3x"></i>
+                <h2>Reservas Ativas</h2>
+                <p>{{ reservas_ativas }} reservas em andamento.</p>
+            </div> 
+            <div class="card" onclick="window.location.href='{{ url_for('main.reservas_pendentes') }}'">
+                <i class="fas fa-hourglass-half fa-3x"></i>
+                <h2>Reservas Pendentes</h2>
+                <p>{{reservas_pendentes}} reservas pendentes de pagamento.</p>
+            </div>           
+        </div>
+    </div>
+</body>
+</html>

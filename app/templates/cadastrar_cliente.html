@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Cliente</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Reset de estilo */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to bottom, #e3f2fd, #ffffff);
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Cabeçalho fixo */
+        header {
+            background: linear-gradient(90deg, #0066ff, #33ccff);
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-logo img {
+            width: 50px;
+            height: 50px;
+            margin-right: 15px;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        .header-logo h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        header .user-info {
+            font-size: 1rem;
+            display: flex;
+            align-items: center; /* Alinha o texto e o botão verticalmente */
+            gap: 15px; /* Espaçamento entre o texto e o botão */
+        }
+
+        /* Conteúdo */
+        main {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 120px 20px 40px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Formulário */
+        form {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        label {
+            font-weight: 500;
+            color: #555;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #f9f9f9;
+            transition: box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+            outline: none;
+            background: #f0f9ff;
+        }
+
+        textarea {
+            resize: none;
+            grid-column: span 2;
+        }
+
+        .form-error {
+            color: red;
+            font-size: 0.85rem;
+            margin-top: 5px;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 15px;
+            background-color: #007bff; /* Azul bonito */
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: background 0.3s, transform 0.2s;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-back i {
+            font-size: 1.2rem;
+        }
+        
+        .btn-back:hover {
+            background-color: #0056b3; /* Azul mais escuro no hover */
+            transform: scale(1.05);
+        } 
+        
+        .btn i {
+            margin-right: 5px;
+        }
+
+        .btn-submit {
+            grid-column: span 2;
+            padding: 12px 20px;
+            font-size: 1.1rem;
+            color: white;
+            background: linear-gradient(90deg, #0056b3, #007bff);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: background 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-submit:hover {
+            background: linear-gradient(90deg, #004080, #0056b3);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .logout-btn {
+            color: white;
+            background: #003366; /* Azul mais escuro */
+            padding: 10px 20px; /* Mais espaçamento interno para o botão */
+            font-size: 0.9rem; /* Tamanho do texto */
+            border: none;
+            border-radius: 6px; /* Borda arredondada */
+            text-decoration: none; /* Remove o sublinhado */
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease; /* Transições suaves */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra leve */
+        }
+        
+        .logout-btn:hover {
+            background: #002244; /* Azul ainda mais escuro para o hover */
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); /* Aumenta a sombra no hover */
+            transform: translateY(-2px); /* Elevação sutil no hover */
+        }  
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            form {
+                grid-template-columns: 1fr;
+            }
+
+            .btn-submit {
+                grid-column: span 1;
+            }
+        }
+    </style>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- jQuery Mask Plugin -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+
+    <script>
+    $(document).ready(function(){
+        $('#cpf').mask('000.000.000-00');
+        $('#rg').mask('00.000.000-0');
+        $('#telefone').mask('(00) 00000-0000');
+        $('#cep').mask('00000-000');
+    });
+    </script>
+</head>
+<body>
+    <header>
+        <div class="header-logo">
+            <img src="{{ url_for('static', filename='assets/imagens/logo_coutinho.png') }}" alt="Logo da Coutinho Excursões">
+            <h1>Coutinho Excursões</h1>
+        </div>
+        <div class="user-info">
+            <span>Bem-vindo, {{ current_user.username }}!</span>
+            <a href="{{ url_for('main.logout') }}" class="logout-btn">Sair</a>
+        </div>
+    </header>
+
+    <main>
+        <a href="{{ url_for('main.listar_clientes') }}" class="btn-back"><i class="fas fa-arrow-left"></i> Voltar</a>
+        
+        <h1>Cadastrar Cliente</h1>
+        <form method="POST" action="{{ url_for('main.cadastrar_cliente') }}">
+            {{ form.hidden_tag() }}
+            
+            <div>
+                {{ form.nome.label }}
+                {{ form.nome(size=32) }}
+                {% for error in form.nome.errors %}
+                    <span class="form-error">[{{ error }}]</span>
+                {% endfor %}
+            </div>
+            <div>
+                {{ form.cpf.label }}
+                {{ form.cpf(id="cpf", size=32) }}
+                {% for error in form.cpf.errors %}
+                    <span class="form-error">[{{ error }}]</span>
+                {% endfor %}
+            </div>
+            <div>
+                {{ form.rg.label }}
+                {{ form.rg(id="rg", size=32) }}
+                {% for error in form.rg.errors %}
+                    <span class="form-error">[{{ error }}]</span>
+                {% endfor %}
+            </div>
+            <div>
+                {{ form.telefone.label }}
+                {{ form.telefone(id="telefone", size=32) }}
+                {% for error in form.telefone.errors %}
+                    <span class="form-error">[{{ error }}]</span>
+                {% endfor %}
+            </div>
+            <div>
+                {{ form.email.label }}
+                {{ form.email(size=32) }}
+                {% for error in form.email.errors %}
+                    <span class="form-error">[{{ error }}]</span>
+                {% endfor %}
+            </div>
+            <div>
+                {{ form.logradouro.label }}
+                {{ form.logradouro(size=32) }}
+                {% for error in form.logradouro.errors %}
+                    <span class="form-error">[{{ error }}]</span>
+                {% endfor %}
+            </div>
+            <div>
+                {{ form.numero.label }}
+                {{ form.numero(size=10) }}
+                {% for error in form.numero.errors %}
+                    <span class="form-error">[{{ error }}]</span>
+                {% endfor %}
+            </div>
+            <div>
+                {{ form.complemento.label }}
+                {{ form.complemento(size=32) }}
+                {% for error in form.complemento.errors %}
+                    <span class="form-error">[{{ error }}]</span>
+                {% endfor %}
+            </div>
+            <div>
+                {{ form.cep.label }}
+                {{ form.cep(id="cep", size=32) }}
+                {% for error in form.cep.errors %}
+                    <span class="form-error">[{{ error }}]</span>
+                {% endfor %}
+            </div>
+            <div>
+                {{ form.municipio.label }}
+                {{ form.municipio(size=32) }}
+                {% for error in form.municipio.errors %}
+                    <span class="form-error">[{{ error }}]</span>
+                {% endfor %}
+            </div>
+            <div>
+                {{ form.estado.label }}
+                {{ form.estado(size=2) }}
+                {% for error in form.estado.errors %}
+                    <span class="form-error">[{{ error }}]</span>
+                {% endfor %}
+            </div>
+            <div>
+                {{ form.pais.label }}
+                {{ form.pais(size=32) }}
+                {% for error in form.pais.errors %}
+                    <span class="form-error">[{{ error }}]</span>
+                {% endfor %}
+            </div>
+            <div>
+                {{ form.observacao.label }}
+                {{ form.observacao(cols=40, rows=3) }}
+            </div>
+            
+            <button type="submit" class="btn-submit">Cadastrar Cliente</button>
+        </form>
+    </main>
+</body>
+</html>

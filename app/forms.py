@@ -1,0 +1,167 @@
+from flask_wtf import FlaskForm
+from wtforms import StringField, DecimalField, SubmitField, SelectField, TextAreaField, FloatField, DateField, PasswordField, IntegerField, RadioField, BooleanField, TimeField, SelectMultipleField, widgets, FieldList, FormField
+from wtforms.validators import DataRequired, Length, Email, EqualTo, NumberRange, Optional
+from wtforms_sqlalchemy.fields import QuerySelectField
+from app.models import Grupo
+
+class LoginForm(FlaskForm):
+    username = StringField('Usuário', validators=[DataRequired()])
+    password = PasswordField('Senha', validators=[DataRequired()])
+    submit = SubmitField('Login')
+    
+
+class RegistrationForm(FlaskForm):
+    username = StringField('Nome de Usuário', validators=[DataRequired(), Length(min=3, max=100)])
+    email = StringField('Email', validators=[DataRequired(), Email(), Length(max=120)])
+    password = PasswordField('Senha', validators=[DataRequired()])
+    confirm_password = PasswordField('Confirmar Senha', validators=[DataRequired(), EqualTo('password', message='As senhas devem ser iguais')])
+    submit = SubmitField('Cadastrar')
+
+class ClienteForm(FlaskForm):
+    nome = StringField('Nome', validators=[Length(max=100)])
+    cpf = StringField('CPF', validators=[Length(min=11, max=11)])
+    rg = StringField('RG', validators=[Length(max=9)])
+    telefone = StringField('Telefone', validators=[Length(max=15)])
+    email = StringField('Email', validators=[Email(), Length(max=100)])
+    logradouro = StringField('Logradouro', validators=[Length(max=150)])
+    numero = StringField('Número', validators=[Length(max=10)])
+    complemento = StringField('Complemento', validators=[Length(max=50)])
+    cep = StringField('CEP', validators=[Length(min=8, max=8)])
+    municipio = StringField('Município', validators=[Length(max=50)])
+    estado = StringField('Estado', validators=[Length(min=2, max=2)])
+    pais = StringField('País', validators=[Length(max=50)])
+    observacao = StringField('Observação', validators=[Length(max=300)])
+    submit = SubmitField('Cadastrar')
+    
+class HospedagemForm(FlaskForm):
+    nome = StringField('Nome', validators=[DataRequired(), Length(max=100)])
+    tipo = SelectField('Tipo', choices=[('hotel', 'Hotel'), ('resort', 'Resort'), ('pousada', 'Pousada')], validators=[DataRequired()])
+    cnpj = StringField('CNPJ', validators=[DataRequired(), Length(max=50)])
+    endereco = StringField('Endereço', validators=[DataRequired(), Length(max=150)])
+    telefone = StringField('Telefone', validators=[DataRequired(), Length(max=15)])
+    descricao = TextAreaField('Descrição')
+    submit = SubmitField('Cadastrar')
+    
+class TipoApartamentoForm(FlaskForm):
+    tipo_apart = StringField('Tipo do Apartamento', validators=[DataRequired()])
+    qtd_apart = IntegerField('Quantidade de Apartamentos', validators=[DataRequired(), NumberRange(min=1)])
+    preco = FloatField('Preço', validators=[DataRequired()])
+
+class GrupoForm(FlaskForm):
+    nome = StringField('Nome do Grupo', validators=[DataRequired()])
+    data_ida = DateField('Data de Ida', format='%Y-%m-%d', validators=[DataRequired()])
+    data_volta = DateField('Data de Volta', format='%Y-%m-%d', validators=[DataRequired()])
+    horario_chegada = TimeField('Horário de Chegada', format='%H:%M')
+    horario_partida = TimeField('Horário de Partida', format='%H:%M')
+    hospedagem_id = SelectField('Hospedagem', coerce=int, validators=[DataRequired()])
+    tipos_apartamentos = FieldList(FormField(TipoApartamentoForm), min_entries=1)
+    submit = SubmitField('Cadastrar Grupo')
+
+class PrecoTabeladoForm(FlaskForm):
+    single = FloatField('Single', validators=[DataRequired()])
+    duplo = FloatField('Duplo', validators=[DataRequired()])
+    triplo = FloatField('Triplo', validators=[DataRequired()])
+    quadruplo = FloatField('Quádruplo', validators=[DataRequired()])
+    chd = FloatField('CHD', validators=[DataRequired()])
+    hospedagem_id = SelectField('Hospedagem', coerce=int, validators=[DataRequired()])
+    submit = SubmitField('Cadastrar Preço')
+
+    
+class HospedeForm(FlaskForm):
+    nome = StringField('Nome', validators=[DataRequired()])
+    
+class ReservaForm(FlaskForm):
+    tipo_reserva = RadioField(
+        'Tipo de Reserva',
+        choices=[('Grupo', 'Grupo'), ('Pacote', 'Pacote')],
+        validators=[DataRequired()]
+    )
+    
+    opcoes_pacote = SelectMultipleField(
+        'Opções do Pacote',
+        choices=[
+            ('aereo', 'Aéreo'),
+            ('hospedagem', 'Hospedagem'),
+            ('transporte', 'Transporte'),
+            ('seguro', 'Seguro'),
+            ('servico', 'Serviço')
+        ],
+        validators=[Optional()]
+    )
+
+    # Informações gerais
+    cliente_id = SelectField('Cliente', coerce=int, validators=[DataRequired()])
+    num_adultos = IntegerField('Número de Adultos', validators=[DataRequired(), NumberRange(min=1)], default=1)
+    num_criancas = IntegerField('Número de Crianças', validators=[NumberRange(min=0)], default=0)
+    num_criancas_free = IntegerField('Número de Crianças Free', validators=[NumberRange(min=0)], default=0)
+    confirmada_por = StringField('Confirmada por', validators=[Optional()])
+
+    status = SelectField(
+        'Status da Reserva',
+        choices=[('confirmada', 'Confirmada'), ('pendente', 'Pendente'), ('nao_confirmada', 'Não Confirmada')],
+        validators=[Optional()]
+    )
+    pensao = SelectField(
+        'Pensão',
+        choices=[('inteira', 'Inteira'), ('meia', 'Meia'), ('café da manhã', 'Café da Manhã')],
+        validators=[Optional()]
+    )
+    garante_no_show = SelectField(
+        'Garante No-Show',
+        choices=[('sim', 'Sim'), ('nao', 'Não')],
+        validators=[Optional()]
+    )
+    
+    evento = SelectField(
+        'Evento',
+        choices=[('sim', 'Sim'), ('nao', 'Não')],
+        validators=[Optional()]
+    )
+    
+    id_reserva = StringField('Id da Reserva', validators=[DataRequired()])
+    
+    descricao = TextAreaField('Informações Adicionais', validators=[Optional()])
+
+    # Campo para múltiplos hóspedes
+    hospedes = FieldList(FormField(HospedeForm), min_entries=1)
+    
+    grupo_id = SelectField('Grupo', choices=[], coerce=int, validators=[Optional()])
+    
+    # Campos adicionais para Pacote (exibidos quando o tipo for 'Pacote')
+    companhia = StringField('Companhia Aérea', validators=[Optional()])
+    numero_voo = StringField('Número do Voo', validators=[Optional()])
+    data_ida = DateField('Data de Ida', format='%Y-%m-%d', validators=[Optional()])
+    data_volta = DateField('Data de Volta', format='%Y-%m-%d', validators=[Optional()])
+    horario_ida = TimeField('Horário de Ida', format='%H:%M', validators=[Optional()])
+    horario_chegada = TimeField('Horário de Chegada', format='%H:%M', validators=[Optional()])
+    origem = StringField('Origem', validators=[Optional()])
+    destino = StringField('Destino', validators=[Optional()])
+    escala = StringField('Escala', validators=[Optional()])
+    inclui_bagagem = BooleanField('Inclui Bagagem', default=False)
+    
+    hospedagem_id = SelectField('Hospedagem', coerce=int, choices=[], validators=[Optional()])
+    tipo_apart = StringField('Tipo de Apartamento', validators=[Optional()])
+    
+    transporte_info = TextAreaField('Informações sobre Transporte', validators=[Optional()])
+    seguro_info = TextAreaField('Informações sobre Seguro', validators=[Optional()])
+    servico_info = TextAreaField('Informações sobre Serviço', validators=[Optional()])
+    
+    diaria = FloatField('Diária', validators=[Optional()])
+    diaria_pessoa = FloatField('Diária por Pessoa', validators=[Optional()])
+    valor_total = FloatField('Depósitos Negociados', validators=[Optional()])
+    depositos_confirmados = FloatField('Depósitos Confirmados', validators=[Optional()])
+    lucro = FloatField('Lucro', validators=[Optional()])
+    
+    submit = SubmitField('Reservar')
+    
+
+
+    
+class ResetPasswordRequestForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    submit = SubmitField('Enviar Solicitação')
+
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField('Nova Senha', validators=[DataRequired()])
+    confirm_password = PasswordField('Confirmar Senha', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Redefinir Senha')
