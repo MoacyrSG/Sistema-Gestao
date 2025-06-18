@@ -24,6 +24,18 @@ from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, 
 
 main = Blueprint('main', __name__)
 
+
+def parse_currency_ptbr(value):
+    if value is None:
+        return None
+    try:
+        value = str(value)
+        value = value.replace('R$', '').replace(' ', '').replace('.', '').replace(',', '.')
+        return float(value)
+    except Exception:
+        return None
+
+
 @main.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
