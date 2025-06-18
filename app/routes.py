@@ -79,6 +79,7 @@ def register():
 
 # Rota para página inicial
 @main.route('/')
+@login_required
 def index():
     total_hospedagens = Hospedagem.query.count()
 
@@ -112,6 +113,7 @@ def index():
     
 # Rota para cadastrar cliente
 @main.route('/cadastrar_cliente', methods=['GET', 'POST'])
+@login_required
 def cadastrar_cliente():
     form = ClienteForm()
     if form.validate_on_submit():
@@ -138,6 +140,7 @@ def cadastrar_cliente():
 
 
 @main.route('/cadastrar_hospedagem', methods=['GET', 'POST'])
+@login_required
 def cadastrar_hospedagem():
     form = HospedagemForm()
     if form.validate_on_submit():
@@ -154,8 +157,10 @@ def cadastrar_hospedagem():
         flash('Hospedagem cadastrada com sucesso!', 'success')
         return redirect(url_for('main.index')) 
     return render_template('cadastrar_hospedagem.html', form=form)
+    
 
 @main.route('/cadastrar_grupo', methods=['GET', 'POST'])
+@login_required
 def cadastrar_grupo():
     form = GrupoForm()
     form.hospedagem_id.choices = [(h.id, h.nome) for h in Hospedagem.query.all()]
@@ -195,6 +200,7 @@ def cadastrar_grupo():
 
 
 @main.route('/listar_clientes', methods=['GET'])
+@login_required
 def listar_clientes():
     busca = request.args.get('busca', '')
     pagina = request.args.get('pagina', 1, type=int)
@@ -211,6 +217,7 @@ def listar_clientes():
 
 
 @main.route('/listar_hospedagens', methods=['GET'])
+@login_required
 def listar_hospedagens():
     busca = request.args.get('busca', '')
     pagina = request.args.get('pagina', 1, type=int)
@@ -226,6 +233,7 @@ def listar_hospedagens():
 
 
 @main.route('/listar_grupo', methods=['GET'])
+@login_required
 def listar_grupo():
     busca = request.args.get('busca', '')
     pagina = request.args.get('pagina', 1, type=int)
@@ -242,6 +250,7 @@ def listar_grupo():
 
 
 @main.route('/editar_cliente/<int:id>', methods=['GET', 'POST'])
+@login_required
 def editar_cliente(id):
     cliente = Cliente.query.get_or_404(id)  # Carrega o cliente com o ID específico ou retorna 404 se não for encontrado
     form = ClienteForm(obj=cliente)
@@ -258,6 +267,7 @@ def editar_cliente(id):
 
 
 @main.route('/excluir_cliente/<int:id>', methods=['POST'])
+@login_required
 def excluir_cliente(id):
     cliente = Cliente.query.get_or_404(id)
     db.session.delete(cliente)
@@ -267,6 +277,7 @@ def excluir_cliente(id):
 
 
 @main.route('/editar_hospedagem/<int:id>', methods=['GET', 'POST'])
+@login_required
 def editar_hospedagem(id):
     hospedagem = Hospedagem.query.get_or_404(id)  # Carrega a hospedagem ou retorna 404
     form = HospedagemForm(obj=hospedagem)
@@ -282,6 +293,7 @@ def editar_hospedagem(id):
 
 
 @main.route('/excluir_hospedagem/<int:id>', methods=['POST'])
+@login_required
 def excluir_hospedagem(id):
     hospedagem = Hospedagem.query.get_or_404(id)
     
@@ -300,6 +312,8 @@ def excluir_hospedagem(id):
         flash(f'Ocorreu um erro ao excluir a hospedagem: {e}', 'danger')
     
     return redirect(url_for('main.listar_hospedagens'))
+
+
 
 @main.route('/editar_grupo/<int:id>', methods=['GET', 'POST'])
 @login_required
@@ -347,6 +361,7 @@ def editar_grupo(id):
 
 
 @main.route('/excluir_grupo/<int:id>', methods=['POST'])
+@login_required
 def excluir_grupo(id):
     grupo = Grupo.query.get_or_404(id)
 
@@ -362,6 +377,7 @@ def excluir_grupo(id):
 
 
 @main.route('/cadastrar_precos', methods=['GET', 'POST'])
+@login_required
 def cadastrar_precos():
     form = PrecoTabeladoForm()
     
@@ -387,6 +403,7 @@ def cadastrar_precos():
 
 
 @main.route('/listar_precos', methods=['GET'])
+@login_required
 def listar_precos():
     busca = request.args.get('busca', '')
     pagina = request.args.get('pagina', 1, type=int)
@@ -402,6 +419,7 @@ def listar_precos():
 
 
 @main.route('/editar_precos/<int:id>', methods=['GET', 'POST'])
+@login_required
 def editar_precos(id):
     preco = PrecoTabelado.query.get_or_404(id)
     form = PrecoTabeladoForm(obj=preco)
@@ -419,6 +437,7 @@ def editar_precos(id):
 
 
 @main.route('/excluir_precos/<int:id>', methods=['POST'])
+@login_required
 def excluir_precos(id):
     preco = PrecoTabelado.query.get_or_404(id)
     db.session.delete(preco)
@@ -428,6 +447,7 @@ def excluir_precos(id):
 
 
 @main.route('/calcular_valor_hospedagem', methods=['POST'])
+@login_required
 def calcular_valor_hospedagem():
     data = request.get_json()
     hospedagem_id = data.get('hospedagem_id')
@@ -463,6 +483,7 @@ def calcular_valor_hospedagem():
 
 
 @main.route('/cadastrar_reserva', methods=['GET', 'POST'])
+@login_required
 def cadastrar_reserva():
     form = ReservaForm()
     
@@ -582,6 +603,7 @@ def cadastrar_reserva():
 
 
 @main.route('/grupo/<int:grupo_id>', methods=['GET'])
+@login_required
 def get_grupo(grupo_id):
     grupo = Grupo.query.get_or_404(grupo_id)
     return jsonify({
@@ -594,6 +616,7 @@ def get_grupo(grupo_id):
 
 
 @main.route('/listar_reserva', methods=['GET'])
+@login_required
 def listar_reserva():
     nome_cliente = request.args.get('nome_cliente', type=int)
     pagina = request.args.get('pagina', 1, type=int)
@@ -610,6 +633,7 @@ def listar_reserva():
 
 
 @main.route('/reservas_ativas', methods=['GET'])
+@login_required
 def reservas_ativas():
     nome_cliente = request.args.get('nome_cliente', type=int)
     hoje = datetime.today()
@@ -638,6 +662,7 @@ def reservas_ativas():
 
 
 @main.route('/reservas_pendentes', methods=['GET'])
+@login_required
 def reservas_pendentes():
     nome_cliente = request.args.get('nome_cliente', type=int)
 
@@ -659,6 +684,7 @@ def reservas_pendentes():
 
 
 @main.route('/editar_reserva/<int:id>', methods=['GET', 'POST'])
+@login_required
 def editar_reserva(id):
     reserva = Reserva.query.get_or_404(id)
     form = ReservaForm(obj=reserva)
@@ -692,6 +718,7 @@ def editar_reserva(id):
 
 
 @main.route('/excluir_reserva/<int:id>', methods=['POST'])
+@login_required
 def excluir_reserva(id):
     reserva = Reserva.query.get_or_404(id)
     db.session.delete(reserva)
@@ -701,6 +728,7 @@ def excluir_reserva(id):
 
 
 @main.route('/relatorios/relatorios_reservas')
+@login_required
 def relatorios_reservas():
     # Obtém o ano selecionado
     ano_selecionado = request.args.get('ano', default=2025, type=int)
@@ -749,6 +777,7 @@ def relatorios_reservas():
 
 
 @main.route('/relatorios/relatorios_hospedagens')
+@login_required
 def relatorios_hospedagens():
     # Capturar o ano selecionado no filtro
     ano_selecionado = request.args.get('ano', None, type=int)
@@ -807,6 +836,7 @@ MESES = {
 
 
 @main.route('/gerar_relatorio_reservas')
+@login_required
 def gerar_relatorio_reservas():
     ano_selecionado = request.args.get('ano', default=2025, type=int)
     
@@ -991,6 +1021,7 @@ def gerar_relatorio_reservas():
     
 
 @main.route('/gerar_relatorio_hospedagens')
+@login_required
 def gerar_relatorio_hospedagens():
     ano_selecionado = request.args.get('ano', default=2025, type=int)
 
@@ -1090,6 +1121,7 @@ def gerar_relatorio_hospedagens():
 
 
 @main.route('/gerar_voucher/<int:id>')
+@login_required
 def gerar_voucher(id):
     reserva = Reserva.query.get_or_404(id)
 
@@ -1101,7 +1133,7 @@ def gerar_voucher(id):
 
     # Cores principais
     azul_escuro = colors.HexColor("#0A2540")
-    cinza_claro = colors.HexColor("#D3D3D3")
+    cinza_claro = colors.HexColor("#000000")
 
     # Caminhos das logos
     logo_jardins_jurema_path = 'app/static/assets/imagens/logo_jardins_jurema.jpeg'
