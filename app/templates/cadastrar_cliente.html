@@ -282,6 +282,13 @@
                 {% endfor %}
             </div>
             <div>
+                {{ form.cep.label }}
+                {{ form.cep(id="cep", size=32) }}
+                {% for error in form.cep.errors %}
+                    <span class="form-error">[{{ error }}]</span>
+                {% endfor %}
+            </div>
+            <div>
                 {{ form.logradouro.label }}
                 {{ form.logradouro(size=32) }}
                 {% for error in form.logradouro.errors %}
@@ -299,13 +306,6 @@
                 {{ form.complemento.label }}
                 {{ form.complemento(size=32) }}
                 {% for error in form.complemento.errors %}
-                    <span class="form-error">[{{ error }}]</span>
-                {% endfor %}
-            </div>
-            <div>
-                {{ form.cep.label }}
-                {{ form.cep(id="cep", size=32) }}
-                {% for error in form.cep.errors %}
                     <span class="form-error">[{{ error }}]</span>
                 {% endfor %}
             </div>
