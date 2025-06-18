@@ -17,16 +17,19 @@ class RegistrationForm(FlaskForm):
     confirm_password = PasswordField('Confirmar Senha', validators=[DataRequired(), EqualTo('password', message='As senhas devem ser iguais')])
     submit = SubmitField('Cadastrar')
 
+def only_digits(value):
+    return re.sub(r'\D', '', value or '')
+
 class ClienteForm(FlaskForm):
     nome = StringField('Nome', validators=[Length(max=100)])
-    cpf = StringField('CPF', validators=[Length(min=11, max=11)])
-    rg = StringField('RG', validators=[Length(max=9)])
+    cpf = StringField('CPF', filters=[only_digits], validators=[Length(min=11, max=11)])
+    rg = StringField('RG', filters=[only_digits], validators=[Length(max=9)])
     telefone = StringField('Telefone', validators=[Length(max=15)])
     email = StringField('Email', validators=[Email(), Length(max=100)])
     logradouro = StringField('Logradouro', validators=[Length(max=150)])
     numero = StringField('Número', validators=[Length(max=10)])
     complemento = StringField('Complemento', validators=[Length(max=50)])
-    cep = StringField('CEP', validators=[Length(min=8, max=8)])
+    cep = StringField('CEP', filters=[only_digits], validators=[Length(min=8, max=8)])
     municipio = StringField('Município', validators=[Length(max=50)])
     estado = StringField('Estado', validators=[Length(min=2, max=2)])
     pais = StringField('País', validators=[Length(max=50)])
