@@ -135,7 +135,7 @@ def cadastrar_cliente():
         db.session.add(cliente)
         db.session.commit()
         flash('Cliente cadastrado com sucesso!', 'success')
-        return redirect(url_for('main.index'))
+        return redirect(url_for('main.listar_clientes'))
     return render_template('cadastrar_cliente.html', form=form)
 
 
@@ -155,7 +155,7 @@ def cadastrar_hospedagem():
         db.session.add(nova_hospedagem)
         db.session.commit()
         flash('Hospedagem cadastrada com sucesso!', 'success')
-        return redirect(url_for('main.index')) 
+        return redirect(url_for('main.listar_hospedagens')) 
     return render_template('cadastrar_hospedagem.html', form=form)
     
 
@@ -190,7 +190,7 @@ def cadastrar_grupo():
         db.session.add(novo_grupo)
         db.session.commit()
         flash('Grupo cadastrado com sucesso!', 'success')
-        return redirect(url_for('main.index')) 
+        return redirect(url_for('main.listar_grupo')) 
     
     else:
         print("Formulário inválido!")
@@ -586,7 +586,7 @@ def cadastrar_reserva():
         db.session.commit()
 
         flash(f'Reserva para {reserva.tipo_reserva} "{reserva.cliente_id}" cadastrada com sucesso!', 'success')
-        return redirect(url_for('main.cadastrar_reserva'))
+        return redirect(url_for('main.listar_reserva'))
 
     # Em caso de erros de validação
     if form.errors:
@@ -1522,14 +1522,14 @@ def gerar_voucher(id):
         
 
     # Linha separadora
-    c.setStrokeColor(colors.grey)
+    c.setStrokeColor(colors.black)
     c.setLineWidth(0.5)
     y -= 10
     c.line(left_margin, y, right_margin, y)
     y -= 15
     
     # Linha separadora
-    c.setStrokeColor(colors.grey)
+    c.setStrokeColor(colors.black)
     c.setLineWidth(0.5)
     y -= 10
     c.line(left_margin, y, right_margin, y)
