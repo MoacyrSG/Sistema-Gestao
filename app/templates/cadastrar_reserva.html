@@ -11,6 +11,7 @@
 
     <!-- jQuery + Select2 JS -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script>
@@ -306,6 +307,17 @@
             button.parentElement.remove();
         }
     </script>
+
+    <script>
+        $(document).ready(function () {
+            $('.money-field').mask('R$ 000.000.000.000.000,00', {
+                reverse: true,              // digita da direita para a esquerda
+                translation: {              // aceita números sem prefixo obrigatório
+                    '0': {pattern: /\d/}
+                }
+            });
+        });
+    </script>
 </head>
 <body>
     <header>
@@ -529,28 +541,28 @@
             <div class="form-grid-duas-colunas">
                 <div>
                     {{ form.diaria.label }}
-                    {{ form.diaria(class="form-control") }}
-                </div> 
-
+                    {{ form.diaria(class="form-control money-field", id="diaria") }}
+                </div>
+                
                 <div>
                     {{ form.diaria_pessoa.label }}
-                    {{ form.diaria_pessoa(class="form-control") }}
-                </div> 
-
+                    {{ form.diaria_pessoa(class="form-control money-field", id="diaria_pessoa") }}
+                </div>
+                
                 <div>
                     {{ form.valor_total.label }}
-                    {{ form.valor_total(class="form-control") }}
-                </div>         
+                    {{ form.valor_total(class="form-control money-field", id="valor_total") }}
+                </div>
                 
                 <div>
                     {{ form.depositos_confirmados.label }}
-                    {{ form.depositos_confirmados(class="form-control") }}
-                </div>         
-
+                    {{ form.depositos_confirmados(class="form-control money-field", id="depositos_confirmados") }}
+                </div>
+                
                 <div>
                     {{ form.lucro.label }}
-                    {{ form.lucro(class="form-control") }}
-                </div>     
+                    {{ form.lucro(class="form-control money-field", id="lucro") }}
+                </div>
             </div>    
     
             <button type="submit" class="btn btn-success mt-3">Salvar Reserva</button>
