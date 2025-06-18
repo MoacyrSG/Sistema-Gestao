@@ -86,10 +86,38 @@
         }
 
         /* Formulário */
-        form {
+        .form-grid-duas-colunas {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .form-uma-coluna {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Linha com 3 colunas iguais */
+        .linha-apartamento {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 10px;
+            align-items: end;
+        }
+
+        /* Estilo padrão dos campos */
+        .input-igual {
+            width: 100%;
+            padding: 6px;
+            box-sizing: border-box;
+        }
+
+        .coluna {
+            display: flex;
+            flex-direction: column;
         }
 
         label {
@@ -213,26 +241,39 @@
 
     <script>
         function addApartamento() {
-            let container = document.getElementById("tipos-apartamentos");
-            let index = container.children.length;
-            let csrfToken = "{{ form.csrf_token._value() }}";  // Obtém o valor do token CSRF
-        
-            let template = `
-                <div class="apartamento-item">
+            const container = document.getElementById("tipos-apartamentos");
+            const index = container.querySelectorAll('.linha-apartamento').length;
+            const csrfToken = "{{ form.csrf_token._value() }}";
+
+            const template = `
+                <div class="linha-apartamento">
                     <input type="hidden" name="tipos_apartamentos-${index}-csrf_token" value="${csrfToken}">
-        
-                    <label for="tipos_apartamentos-${index}-tipo_apart">Tipo:</label>
-                    <input type="text" name="tipos_apartamentos-${index}-tipo_apart" required>
-        
-                    <label for="tipos_apartamentos-${index}-qtd_apart">Quantidade:</label>
-                    <input type="number" name="tipos_apartamentos-${index}-qtd_apart" required min="1">
-        
-                    <label for="tipos_apartamentos-${index}-preco">Preço:</label>
-                    <input type="number" step="0.01" name="tipos_apartamentos-${index}-preco" required>
+                    
+                    <div class="coluna">
+                        <label for="tipos_apartamentos-${index}-tipo_apart" class="sr-only">Tipo</label>
+                        <input type="text" name="tipos_apartamentos-${index}-tipo_apart" class="input-igual">
+                    </div>
+
+                    <div class="coluna">
+                        <label for="tipos_apartamentos-${index}-qtd_apart" class="sr-only">Quantidade</label>
+                        <input type="number" name="tipos_apartamentos-${index}-qtd_apart" class="input-igual">
+                    </div>
+
+                    <div class="coluna">
+                        <label for="tipos_apartamentos-${index}-preco" class="sr-only">Preço</label>
+                        <input type="number" step="0.01" name="tipos_apartamentos-${index}-preco" class="input-igual">
+                    </div>
+
+                    <button type="button" class="btn-remove-hospede" onclick="removerApart(this)">Remover</button>
                 </div>
             `;
+
             container.insertAdjacentHTML('beforeend', template);
-        }        
+        }
+
+        function removerApart(button) {
+            button.parentElement.remove();
+        }
     </script>
 </head>
 <body>
@@ -254,68 +295,90 @@
         <form method="POST" action="{{ url_for('main.editar_grupo', id=grupo.id) }}">
             {{ form.hidden_tag() }}
 
-            <div>
-                {{ form.nome.label }} 
-                {{ form.nome(size=50) }}
-                {% for error in form.nome.errors %}
-                    <span style="color: red;">[{{ error }}]</span>
-                {% endfor %}
+            <!-- Seção com duas colunas -->
+            <div class="form-grid-duas-colunas">
+                <div>
+                    {{ form.nome.label }} 
+                    {{ form.nome(size=50) }}
+                    {% for error in form.nome.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </div>
+                <div>
+                    {{ form.data_ida.label }} 
+                    {{ form.data_ida() }}
+                    {% for error in form.data_ida.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </div>
+                <div>
+                    {{ form.data_volta.label }} 
+                    {{ form.data_volta() }}
+                    {% for error in form.data_volta.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </div>
+                <div>
+                    {{ form.horario_chegada.label }}
+                    {{ form.horario_chegada() }}
+                    {% for error in form.horario_chegada.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </div>
+                <div>
+                    {{ form.horario_partida.label }}
+                    {{ form.horario_partida() }}
+                    {% for error in form.horario_partida.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </div>
+                <div>
+                    {{ form.hospedagem_id.label }} 
+                    {{ form.hospedagem_id() }}
+                    {% for error in form.hospedagem_id.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </div>
             </div>
 
-            <div>
-                {{ form.data_ida.label }} 
-                {{ form.data_ida() }}
-                {% for error in form.data_ida.errors %}
-                    <span style="color: red;">[{{ error }}]</span>
-                {% endfor %}
-            </div>
+            <div class="form-uma-coluna">
+                <h3>Tipos de Apartamentos</h3>
 
-            <div>
-                {{ form.data_volta.label }} 
-                {{ form.data_volta() }}
-                {% for error in form.data_volta.errors %}
-                    <span style="color: red;">[{{ error }}]</span>
-                {% endfor %}
-            </div>
+                <!-- Cabeçalho opcional -->
+                <div class="linha-apartamento">
+                    <div class="coluna">Tipo de Apartamento</div>
+                    <div class="coluna">Quantidade de Apartamentos</div>
+                    <div class="coluna">Preço</div>
+                </div>
 
-            <div>
-                {{ form.horario_chegada.label }}
-                {{ form.horario_chegada() }}
-                {% for error in form.horario_chegada.errors %}
-                    <span style="color: red;">[{{ error }}]</span>
-                {% endfor %}
-            </div>
-            
-            <div>
-                {{ form.horario_partida.label }}
-                {{ form.horario_partida() }}
-                {% for error in form.horario_partida.errors %}
-                    <span style="color: red;">[{{ error }}]</span>
-                {% endfor %}
-            </div>
-            
-            <div>
-                {{ form.hospedagem_id.label }} 
-                {{ form.hospedagem_id() }}
-                {% for error in form.hospedagem_id.errors %}
-                    <span style="color: red;">[{{ error }}]</span>
-                {% endfor %}
-            </div>
+                <!-- Itens -->
+                <div id="tipos-apartamentos">
+                    {% for subform in form.tipos_apartamentos %}
+                        <div class="linha-apartamento">
+                            {{ subform.hidden_tag() }}
 
-            <h3>Tipos de Apartamentos</h3>
-            <div id="tipos-apartamentos">
-                {% for subform in form.tipos_apartamentos %}
-                    <div class="apartamento-item">
-                        {{ subform.hidden_tag() }}
-                        {{ subform.tipo_apart.label }} {{ subform.tipo_apart(size=30) }}
-                        {{ subform.qtd_apart.label }} {{ subform.qtd_apart(size=5) }}
-                        {{ subform.preco.label }} {{ subform.preco(size=10) }}
-                    </div>
-                {% endfor %}
-            </div>
+                            <div class="coluna">
+                                {{ subform.tipo_apart.label(class="sr-only") }}
+                                {{ subform.tipo_apart(class="input-igual") }}
+                            </div>
 
-            <button type="button" onclick="addApartamento()">Adicionar Tipo de Apartamento</button>
-            <button type="submit" class="btn-submit">Salvar Alterações</button>
+                            <div class="coluna">
+                                {{ subform.qtd_apart.label(class="sr-only") }}
+                                {{ subform.qtd_apart(class="input-igual") }}
+                            </div>
+
+                            <div class="coluna">
+                                {{ subform.preco.label(class="sr-only") }}
+                                {{ subform.preco(class="input-igual") }}
+                            </div>
+
+                            <button type="button" class="btn btn-danger" onclick="removerApart(this)">Remover</button>
+                            <button type="button" class="btn btn-success" onclick="addApartamento()">Adicionar Tipo de Apartamento</button>
+                        </div>
+                    {% endfor %}
+                </div>
+                <button type="submit" class="btn-submit">Salvar Alterações</button>
+            </div>
         </form>
     </main>
 </body>
