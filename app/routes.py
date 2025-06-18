@@ -178,8 +178,7 @@ def cadastrar_grupo():
             tipo_apartamento = GrupoApartamento(
                 tipo_apart=tipo_form.tipo_apart.data,
                 qtd_apart=tipo_form.qtd_apart.data,
-                preco=tipo_form.preco.data,
-                id_grupo=form.id_grupo.data 
+                preco=tipo_form.preco.data
             )
             novo_grupo.tipos_apartamentos.append(tipo_apartamento)
 
