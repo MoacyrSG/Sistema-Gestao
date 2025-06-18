@@ -3,6 +3,7 @@ from wtforms import StringField, DecimalField, SubmitField, SelectField, TextAre
 from wtforms.validators import DataRequired, Length, Email, EqualTo, NumberRange, Optional
 from wtforms_sqlalchemy.fields import QuerySelectField
 from app.models import Grupo
+import re
 
 class LoginForm(FlaskForm):
     username = StringField('Usuário', validators=[DataRequired()])
