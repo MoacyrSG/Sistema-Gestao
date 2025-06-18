@@ -579,11 +579,11 @@ def cadastrar_reserva():
             seguro_info=form.seguro_info.data if 'seguro' in form.opcoes_pacote.data else None,
             servico_info=form.servico_info.data if 'servico' in form.opcoes_pacote.data else None,
             
-            diaria = form.diaria.data if form.diaria.data else 0,
-            diaria_pessoa = form.diaria_pessoa.data if form.diaria_pessoa.data else 0,
-            valor_total=form.valor_total.data if form.valor_total.data else 0,
-            depositos_confirmados = form.depositos_confirmados.data if form.depositos_confirmados.data else 0,
-            lucro = form.lucro.data if form.lucro.data else 0,
+            diaria=parse_currency_ptbr(form.diaria.data),
+            diaria_pessoa=parse_currency_ptbr(form.diaria_pessoa.data),
+            valor_total=parse_currency_ptbr(form.valor_total.data),
+            depositos_confirmados=parse_currency_ptbr(form.depositos_confirmados.data),
+            lucro=parse_currency_ptbr(form.lucro.data),
         )
 
 
