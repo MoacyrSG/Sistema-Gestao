@@ -489,27 +489,32 @@
             <div class="form-grid-duas-colunas">
                 <div class="form-group">
                     <label for="diaria">Diária</label>
-                    <input type="text" class="form-control money-field" id="diaria" name="diaria" value="{{ reserva.diaria }}">
+                    <input type="text" class="form-control money-field" id="diaria" name="diaria" value="{{ 'R$ {:,.2f}'.format(reserva.diaria | float).replace(',', 'v').replace('.', ',').replace('v', '.') }}"
+>
                 </div> 
 
                 <div class="form-group">
                     <label for="diaria_pessoa">Diária por Pessoa</label>
-                    <input type="text" class="form-control money-field" id="diaria_pessoa" name="diaria_pessoa" value="{{ reserva.diaria_pessoa }}">
+                    <input type="text" class="form-control money-field" id="diaria_pessoa" name="diaria_pessoa" value="{{ 'R$ {:,.2f}'.format(reserva.diaria_pessoa | float).replace(',', 'v').replace('.', ',').replace('v', '.') }}"
+>
                 </div> 
 
                 <div class="form-group">
                     <label for="valor_total">Depósitos Negociados</label>
-                    <input type="text" class="form-control money-field" id="valor_total" name="valor_total" value="{{ reserva.valor_total }}">
+                    <input type="text" class="form-control money-field" id="valor_total" name="valor_total" value="{{ 'R$ {:,.2f}'.format(reserva.valor_total | float).replace(',', 'v').replace('.', ',').replace('v', '.') }}"
+>
                 </div> 
                 
                 <div class="form-group">
                     <label for="depositos_confirmados">Depósitos Confirmados</label>
-                    <input type="text" class="form-control money-field" id="depositos_confirmados" name="depositos_confirmados" value="{{ reserva.depositos_confirmados }}">
+                    <input type="text" class="form-control money-field" id="depositos_confirmados" name="depositos_confirmados" value="{{ 'R$ {:,.2f}'.format(reserva.depositos_confirmados | float).replace(',', 'v').replace('.', ',').replace('v', '.') }}"
+>
                 </div>         
 
                 <div class="form-group">
                     <label for="lucro">Lucro</label>
-                    <input type="text" class="form-control money-field" id="lucro" name="lucro" value="{{ reserva.lucro }}">
+                    <input type="text" class="form-control money-field" id="lucro" name="lucro" value="{{ 'R$ {:,.2f}'.format(reserva.lucro | float).replace(',', 'v').replace('.', ',').replace('v', '.') }}"
+>
                 </div>
             </div>
     
