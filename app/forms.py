@@ -73,6 +73,23 @@ class PrecoTabeladoForm(FlaskForm):
     
 class HospedeForm(FlaskForm):
     nome = StringField('Nome', validators=[DataRequired()])
+
+
+def parse_currency_ptbr(value):
+    """
+    Converte strings como 'R$ 10.900,90' -> 10900.90 (float) ou '' -> None
+    """
+    if not value:
+        return None
+    # remove R$, espaços e separadores de milhar
+    value = value.replace('R$', '').replace(' ', '').replace('.', '')
+    # troca vírgula decimal por ponto
+    value = value.replace(',', '.')
+    try:
+        return float(value)
+    except ValueError:
+        return None   # deixa WTForms acusar erro se não for número
+        
     
 class ReservaForm(FlaskForm):
     tipo_reserva = RadioField(
@@ -150,11 +167,11 @@ class ReservaForm(FlaskForm):
     seguro_info = TextAreaField('Informações sobre Seguro', validators=[Optional()])
     servico_info = TextAreaField('Informações sobre Serviço', validators=[Optional()])
     
-    diaria = FloatField('Diária', validators=[Optional()])
-    diaria_pessoa = FloatField('Diária por Pessoa', validators=[Optional()])
-    valor_total = FloatField('Depósitos Negociados', validators=[Optional()])
-    depositos_confirmados = FloatField('Depósitos Confirmados', validators=[Optional()])
-    lucro = FloatField('Lucro', validators=[Optional()])
+    diaria                = FloatField('Diária',               filters=[parse_currency_ptbr], validators=[Optional()])
+    diaria_pessoa         = FloatField('Diária por Pessoa',    filters=[parse_currency_ptbr], validators=[Optional()])
+    valor_total           = FloatField('Depósitos Negociados', filters=[parse_currency_ptbr], validators=[Optional()])
+    depositos_confirmados = FloatField('Depósitos Confirmados',filters=[parse_currency_ptbr], validators=[Optional()])
+    lucro                 = FloatField('Lucro',                filters=[parse_currency_ptbr], validators=[Optional()])
     
     submit = SubmitField('Reservar')
     
