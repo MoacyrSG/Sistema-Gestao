@@ -345,7 +345,6 @@ def editar_grupo(id):
         grupo.horario_chegada = form.horario_chegada.data
         grupo.horario_partida = form.horario_partida.data
         grupo.hospedagem_id = form.hospedagem_id.data
-        grupo.nome_hospedagem = form.nome_hospedagem.data
 
         # Remove apartamentos antigos
         GrupoApartamento.query.filter_by(grupo_id=grupo.id).delete()
