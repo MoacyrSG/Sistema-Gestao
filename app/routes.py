@@ -1341,6 +1341,11 @@ def gerar_voucher(id):
     c.setFont("Helvetica-Bold", 11)
     c.drawString(230, y, str(reserva.num_criancas) if reserva.num_criancas else "0")
 
+    c.setFont("Helvetica", 11)
+    c.drawString(310, y, "Criança Free:")
+    c.setFont("Helvetica-Bold", 11)
+    c.drawString(390, y, str(reserva.num_criancas_free) if reserva.num_criancas_free else "0")
+
     y -= 20
 
     # Linha separadora após esse bloco
