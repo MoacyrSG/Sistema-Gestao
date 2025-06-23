@@ -1184,9 +1184,9 @@ def gerar_voucher(id):
     
     # Contar quantas reservas existem no mesmo mês/ano da data_ida
     qtde_reservas_mes = Reserva.query.filter(
-        db.extract('year', Reserva.data_ida) == data_ida.year,
-        db.extract('month', Reserva.data_ida) == data_ida.month,
-        Reserva.data_ida <= data_ida  # apenas anteriores ou no mesmo dia
+        db.extract('year', Reserva.data_ida) == data.year,
+        db.extract('month', Reserva.data_ida) == data.month,
+        Reserva.data_ida <= data  # apenas anteriores ou no mesmo dia
     ).order_by(Reserva.data_ida).all()
     
     # Posição dessa reserva na lista
