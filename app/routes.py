@@ -339,11 +339,13 @@ def editar_grupo(id):
 
     if form.validate_on_submit():
         # Atualiza os campos principais do grupo
+        grupo.nome = form.nome.data
         grupo.data_ida = form.data_ida.data
         grupo.data_volta = form.data_volta.data
         grupo.horario_chegada = form.horario_chegada.data
         grupo.horario_partida = form.horario_partida.data
         grupo.hospedagem_id = form.hospedagem_id.data
+        grupo.nome_hospedagem = form.nome_hospedagem.data
 
         # Remove apartamentos antigos
         GrupoApartamento.query.filter_by(grupo_id=grupo.id).delete()
