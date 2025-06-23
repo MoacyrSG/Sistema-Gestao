@@ -16,9 +16,8 @@ from reportlab.lib import units
 from wtforms import SelectField
 from reportlab.lib.utils import ImageReader
 from sqlalchemy import case, extract, func
-import os
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
-
+import pytz, os
 
 
 
@@ -1174,15 +1173,28 @@ def gerar_voucher(id):
     c.drawImage(logo_coutinho_path, width - logo_width - 50, margin_top, width=logo_width, height=logo_height, preserveAspectRatio=True, mask='auto')
 
     # Cabeçalho centralizado entre as logos
-    data_geracao = datetime.now().strftime("%d/%m/%Y")
-    hora_geracao = datetime.now().strftime("%H:%M")
-    data = reserva.data_reserva  # datetime com fuso de Brasília
+    fuso_brasilia = pytz.timezone("America/Sao_Paulo")
+    agora = datetime.now(fuso_brasilia)
+    data_geracao = agora.strftime("%d/%m/%Y")
+    hora_geracao = agora.strftime("%H:%M")
+
+    data = reserva.data_ida  # datetime com fuso de Brasília
     ano = str(data.year)[-2:]    # ex: 2025 -> '25'
     mes = str(data.month).zfill(2)  # ex: 4 -> '04'
-    codigo = str(reserva.id).zfill(2)  # id com pelo menos 2 dígitos
+    
+    # Contar quantas reservas existem no mesmo mês/ano da data_ida
+    qtde_reservas_mes = Reserva.query.filter(
+        db.extract('year', Reserva.data_ida) == data_ida.year,
+        db.extract('month', Reserva.data_ida) == data_ida.month,
+        Reserva.data_ida <= data_ida  # apenas anteriores ou no mesmo dia
+    ).order_by(Reserva.data_ida).all()
+    
+    # Posição dessa reserva na lista
+    ordem_no_mes = qtde_reservas_mes.index(reserva) + 1
+    numero = str(ordem_no_mes).zfill(2)
 
     # Monta o número da reserva
-    numero_reserva = f"{ano}{mes}{codigo}"
+    numero_reserva = f"{ano}{mes}{numero}"
 
     title_x = 220  # Posição horizontal do texto centralizado
     title_y = margin_top + 35  # vertical no meio das logos
