@@ -249,37 +249,43 @@
             const container = document.getElementById("tipos-apartamentos");
             const index = container.querySelectorAll('.linha-apartamento').length;
             const csrfToken = "{{ form.csrf_token._value() }}";
-
+    
             const template = `
                 <div class="linha-apartamento">
                     <input type="hidden" name="tipos_apartamentos-${index}-csrf_token" value="${csrfToken}">
                     
                     <div class="coluna">
                         <label for="tipos_apartamentos-${index}-tipo_apart" class="sr-only">Tipo</label>
-                        <input type="text" name="tipos_apartamentos-${index}-tipo_apart" class="input-igual">
+                        <input type="text" name="tipos_apartamentos-${index}-tipo_apart" class="input-igual" required>
                     </div>
-
+    
                     <div class="coluna">
                         <label for="tipos_apartamentos-${index}-qtd_apart" class="sr-only">Quantidade</label>
-                        <input type="number" name="tipos_apartamentos-${index}-qtd_apart" class="input-igual">
+                        <input type="number" name="tipos_apartamentos-${index}-qtd_apart" class="input-igual" required>
                     </div>
-
+    
                     <div class="coluna">
                         <label for="tipos_apartamentos-${index}-preco" class="sr-only">Preço</label>
-                        <input type="number" step="0.01" name="tipos_apartamentos-${index}-preco" class="input-igual">
+                        <input type="text" name="tipos_apartamentos-${index}-preco" class="input-igual money-field" required>
                     </div>
-
+    
                     <button type="button" class="btn-remove-hospede" onclick="removerApart(this)">Remover</button>
                 </div>
             `;
-
+    
             container.insertAdjacentHTML('beforeend', template);
+    
+            // Aplica máscara no novo campo de preço
+            $('.money-field').mask('R$ 000.000.000.000.000,00', {
+                reverse: true
+            });
         }
-
+    
         function removerApart(button) {
             button.parentElement.remove();
         }
     </script>
+    
 
     <script>
         $(document).ready(function () {
@@ -390,9 +396,10 @@
                             </div>
 
                             <button type="button" class="btn btn-danger" onclick="removerApart(this)">Remover</button>
-                            <button type="button" class="btn btn-success" onclick="addApartamento()">Adicionar Tipo de Apartamento</button>
+                            
                         </div>
                     {% endfor %}
+                    <button type="button" class="btn btn-success" onclick="addApartamento()">Adicionar Tipo de Apartamento</button>
                 </div>
 
                 
