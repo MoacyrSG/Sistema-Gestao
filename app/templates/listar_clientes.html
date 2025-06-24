@@ -324,12 +324,12 @@
             {% for cliente in clientes %}
             <div class="list-item">
                 <div>{{ cliente.nome }}</div>
-                <div>{{ cliente.cpf(id="cpf") }}</div>
-                <div>{{ cliente.telefone(id="telefone") }}</div>
+                <div id="cpf">{{ cliente.cpf }}</div>
+                <div id="telefone">{{ cliente.telefone }}</div>
                 <div>{{ cliente.email }}</div>
                 <div>
                     {{ cliente.logradouro }}, {{ cliente.numero }} - {{ cliente.complemento or '-' }}<br>
-                    {{ cliente.cep(id="cep") }} - {{ cliente.municipio }}/{{ cliente.estado }}, {{ cliente.pais }}
+                    <span id="cep">{{ cliente.cep }}</span> - {{ cliente.municipio }}/{{ cliente.estado }}, {{ cliente.pais }}
                 </div>
                 <div class="actions">
                     <a href="{{ url_for('main.editar_cliente', id=cliente.id) }}" class="btn">
