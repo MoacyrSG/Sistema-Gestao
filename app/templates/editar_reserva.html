@@ -321,7 +321,7 @@
             <div class="form-grid-duas-colunas">
                 <div class="mb-3">
                     <label for="cliente_id">Cliente</label>
-                    <input type="text" class="form-control" name="reserva.nome_cliente" value="{{ reserva.nome_cliente }}">
+                    {{ form.nome_cliente(class="form-control") }}
                 </div>
                 <div class="mb-3">
                     <label for="id_reserva">Número da Reserva</label>
@@ -413,27 +413,27 @@
                     <div class="form-grid-duas-colunas">
                         <div class="mb-3">
                             <label class="form-label">Companhia:</label>
-                            <input type="text" class="form-control" name="companhia" value="{{ reserva.companhia }}">
+                            {{ form.companhia(class="form-control") }}
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Número do Voo:</label>
-                            <input type="text" class="form-control" name="numero_voo" value="{{ reserva.numero_voo }}">
+                            {{ form.numero_voo(class="form-control") }}
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Data de Ida:</label>
-                            <input type="date" class="form-control" name="data_ida" value="{{ reserva.data_ida }}">
+                            {{ form.data_ida(class="form-control") }}
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Data de Volta:</label>
-                            <input type="date" class="form-control" name="data_volta" value="{{ reserva.data_volta }}">
+                            {{ form.data_volta(class="form-control") }}
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Origem:</label>
-                            <input type="text" class="form-control" name="origem" value="{{ reserva.origem }}">
+                            {{ form.origem(class="form-control") }}
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Destino:</label>
-                            <input type="text" class="form-control" name="destino" value="{{ reserva.destino }}">
+                            {{ form.destino(class="form-control") }}
                         </div>
                     </div>
                     <hr>
@@ -451,7 +451,7 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Tipo de Apartamento:</label>
-                            <input type="text" class="form-control" name="tipo_apart" value="{{ reserva.tipo_apart }}">
+                            {{ form.tipo_apart(class="form-control") }}
                         </div>
                     </div>
                     <hr>
@@ -461,7 +461,7 @@
                     <h4>Pacote de Transporte</h4>
                     <div class="mb-3">
                         <label class="form-label">Informações:</label>
-                        <textarea class="form-control" name="transporte_info">{{ reserva.transporte_info }}</textarea>
+                        {{ form.transporte_info(class="form-control") }}
                     </div>
                     <hr>
                 {% endif %}
@@ -470,7 +470,7 @@
                     <h4>Pacote de Seguro</h4>
                     <div class="mb-3">
                         <label class="form-label">Informações:</label>
-                        <textarea class="form-control" name="seguro_info">{{ reserva.seguro_info }}</textarea>
+                        {{ form.seguro_info(class="form-control") }}
                     </div>
                     <hr>
                 {% endif %}
@@ -479,7 +479,7 @@
                     <h4>Pacote de Serviços</h4>
                     <div class="mb-3">
                         <label class="form-label">Informações:</label>
-                        <textarea class="form-control" name="servico_info">{{ reserva.servico_info }}</textarea>
+                        {{ form.servico_info(class="form-control") }}
                     </div>
                     <hr>
                 {% endif %}
@@ -489,32 +489,32 @@
             <div class="form-grid-duas-colunas">
                 <div class="form-group">
                     <label for="diaria">Diária</label>
-                    <input type="text" class="form-control money-field" id="diaria" name="diaria" value="{{ 'R$ {:,.2f}'.format(reserva.diaria | float).replace(',', 'v').replace('.', ',').replace('v', '.') }}"
->
+                    {% set valor = form.diaria.data %}
+                    {{ form.diaria(class="form-control money-field", value='R$ {:,.2f}'.format(valor | float).replace(',', 'v').replace('.', ',').replace('v', '.')) }}
                 </div> 
 
                 <div class="form-group">
                     <label for="diaria_pessoa">Diária por Pessoa</label>
-                    <input type="text" class="form-control money-field" id="diaria_pessoa" name="diaria_pessoa" value="{{ 'R$ {:,.2f}'.format(reserva.diaria_pessoa | float).replace(',', 'v').replace('.', ',').replace('v', '.') }}"
->
+                    {% set valor = form.diaria_pessoa.data %}
+                    {{ form.diaria_pessoa(class="form-control money-field", value='R$ {:,.2f}'.format(valor | float).replace(',', 'v').replace('.', ',').replace('v', '.')) }}
                 </div> 
 
                 <div class="form-group">
                     <label for="valor_total">Depósitos Negociados</label>
-                    <input type="text" class="form-control money-field" id="valor_total" name="valor_total" value="{{ 'R$ {:,.2f}'.format(reserva.valor_total | float).replace(',', 'v').replace('.', ',').replace('v', '.') }}"
->
+                    {% set valor = form.valor_total.data %}
+                    {{ form.valor_total(class="form-control money-field", value='R$ {:,.2f}'.format(valor | float).replace(',', 'v').replace('.', ',').replace('v', '.')) }}
                 </div> 
                 
                 <div class="form-group">
                     <label for="depositos_confirmados">Depósitos Confirmados</label>
-                    <input type="text" class="form-control money-field" id="depositos_confirmados" name="depositos_confirmados" value="{{ 'R$ {:,.2f}'.format(reserva.depositos_confirmados | float).replace(',', 'v').replace('.', ',').replace('v', '.') }}"
->
+                    {% set valor = form.depositos_confirmados.data %}
+                    {{ form.depositos_confirmados(class="form-control money-field", value='R$ {:,.2f}'.format(valor | float).replace(',', 'v').replace('.', ',').replace('v', '.')) }}
                 </div>         
 
                 <div class="form-group">
                     <label for="lucro">Lucro</label>
-                    <input type="text" class="form-control money-field" id="lucro" name="lucro" value="{{ 'R$ {:,.2f}'.format(reserva.lucro | float).replace(',', 'v').replace('.', ',').replace('v', '.') }}"
->
+                    {% set valor = form.lucro.data %}
+                    {{ form.lucro(class="form-control money-field", value='R$ {:,.2f}'.format(valor | float).replace(',', 'v').replace('.', ',').replace('v', '.')) }}
                 </div>
             </div>
     
