@@ -449,12 +449,24 @@ def editar_precos(id):
     form.hospedagem_id.choices = [(h.id, h.nome) for h in Hospedagem.query.all()]
     
     if form.validate_on_submit():
-        form.populate_obj(preco)
-        db.session.commit()
-        flash('Preço atualizado com sucesso!', 'success')
-        return redirect(url_for('main.listar_precos'))
+        try:
+            preco.single = parse_float(form.single.data)
+            preco.duplo = parse_float(form.duplo.data)
+            preco.triplo = parse_float(form.triplo.data)
+            preco.quadruplo = parse_float(form.quadruplo.data)
+            preco.chd = parse_float(form.chd.data)
+            preco.data = form.data.data
+            preco.hospedagem_id = form.hospedagem_id.data
+
+            db.session.commit()
+            flash('Preço atualizado com sucesso!', 'success')
+            return redirect(url_for('main.listar_precos'))
+        except Exception as e:
+            db.session.rollback()
+            flash(f'Erro ao atualizar o preço: {e}', 'danger')
     
     return render_template('editar_precos.html', form=form, preco=preco)
+
 
 
 
