@@ -18,6 +18,7 @@ from reportlab.lib.utils import ImageReader
 from sqlalchemy import case, extract, func
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
 import pytz, os
+from decimal import Decimal
 
 
 
@@ -34,6 +35,13 @@ def parse_currency_ptbr(value):
     except Exception:
         return None
 
+def parse_float(valor_str):
+    """Converte string '3.400,00' para float 3400.00"""
+    try:
+        return float(valor_str.replace('.', '').replace(',', '.'))
+    except Exception:
+        return 0.0
+        
 
 @main.route('/login', methods=['GET', 'POST'])
 def login():
@@ -735,6 +743,12 @@ def editar_reserva(id):
         
         reserva.evento = True if form.evento.data == 'sim' else False
         reserva.garante_no_show = True if form.garante_no_show.data == 'sim' else False
+
+        reserva.diaria = parse_float(form.diaria.data)
+        reserva.diaria_pessoa = parse_float(form.diaria_pessoa.data)
+        reserva.valor_total = parse_float(form.valor_total.data)
+        reserva.depositos_confirmados = parse_float(form.depositos_confirmados.data)
+        reserva.lucro = parse_float(form.lucro.data)
         
         db.session.commit()
         flash('Reserva atualizada com sucesso!', 'success')
