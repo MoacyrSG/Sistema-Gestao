@@ -237,6 +237,11 @@
                     <span style="color: red;">[{{ error }}]</span>
                 {% endfor %}
             </div>
+
+            <div>
+                <label for="single">{{ form.data.label }}</label>
+                {{ form.data }}
+            </div>
             
             <div>
                 <label for="single">{{ form.single.label }}</label>
