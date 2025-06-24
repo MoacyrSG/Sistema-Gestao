@@ -269,6 +269,20 @@
 
     </style>
 
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- jQuery Mask Plugin -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+
+    <script>
+    $(document).ready(function(){
+        $('#cpf').mask('000.000.000-00');
+        $('#telefone').mask('(00) 00000-0000');
+        $('#cep').mask('00000-000');
+    });
+    </script>
+
 </head>
 <body>
     <header>
@@ -310,12 +324,12 @@
             {% for cliente in clientes %}
             <div class="list-item">
                 <div>{{ cliente.nome }}</div>
-                <div>{{ cliente.cpf }}</div>
-                <div>{{ cliente.telefone }}</div>
+                <div>{{ cliente.cpf(id="cpf") }}</div>
+                <div>{{ cliente.telefone(id="telefone") }}</div>
                 <div>{{ cliente.email }}</div>
                 <div>
                     {{ cliente.logradouro }}, {{ cliente.numero }} - {{ cliente.complemento or '-' }}<br>
-                    {{ cliente.cep }} - {{ cliente.municipio }}/{{ cliente.estado }}, {{ cliente.pais }}
+                    {{ cliente.cep(id="cep") }} - {{ cliente.municipio }}/{{ cliente.estado }}, {{ cliente.pais }}
                 </div>
                 <div class="actions">
                     <a href="{{ url_for('main.editar_cliente', id=cliente.id) }}" class="btn">
