@@ -210,6 +210,19 @@
             }
         }
     </style>
+
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- jQuery Mask Plugin -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+
+    <script>
+    $(document).ready(function(){
+        $('#cnpj').mask('00.000.000/0000-00');
+    });
+    </script>
 </head>
 <body>
     <header>
@@ -240,7 +253,7 @@
             
             <div>
                 {{ form.cnpj.label }}
-                {{ form.cnpj(size=50) }}
+                {{ form.cnpj(id="cnpj", size=50) }}
                 {% for error in form.cnpj.errors %}
                     <span class="form-error">[{{ error }}]</span>
                 {% endfor %}
