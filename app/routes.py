@@ -1,4 +1,4 @@
-from collections import defaultdict
+3from collections import defaultdict
 from flask import Blueprint, Response, current_app, render_template, redirect, url_for, flash, request, jsonify, make_response
 from flask_login import login_user, login_required, logout_user
 from app import db
@@ -729,11 +729,13 @@ def editar_reserva(id):
     if reserva.servico_info:
         opcoes_pacote.append('servico')
 
-    reserva.evento = True if form.evento.data == 'sim' else False
-    reserva.garante_no_show = True if form.garante_no_show.data == 'sim' else False
     
     if form.validate_on_submit():
         form.populate_obj(reserva)
+        
+        reserva.evento = True if form.evento.data == 'sim' else False
+        reserva.garante_no_show = True if form.garante_no_show.data == 'sim' else False
+        
         db.session.commit()
         flash('Reserva atualizada com sucesso!', 'success')
         return redirect(url_for('main.listar_reserva'))
