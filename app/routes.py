@@ -729,6 +729,8 @@ def editar_reserva(id):
     if reserva.servico_info:
         opcoes_pacote.append('servico')
 
+    reserva.evento = True if form.evento.data == 'sim' else False
+    reserva.garante_no_show = True if form.garante_no_show.data == 'sim' else False
     
     if form.validate_on_submit():
         form.populate_obj(reserva)
