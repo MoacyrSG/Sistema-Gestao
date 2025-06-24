@@ -749,6 +749,9 @@ def editar_reserva(id):
         reserva.valor_total = parse_float(form.valor_total.data)
         reserva.depositos_confirmados = parse_float(form.depositos_confirmados.data)
         reserva.lucro = parse_float(form.lucro.data)
+
+        cliente = Cliente.query.get(form.cliente_id.data)
+        reserva.nome_cliente = cliente.nome if cliente else ''
         
         db.session.commit()
         flash('Reserva atualizada com sucesso!', 'success')
