@@ -210,6 +210,22 @@
             }
         }
     </style>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- jQuery Mask Plugin -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+
+    <script>
+    $(document).ready(function(){
+        $('#cpf').mask('000.000.000-00');
+        $('#rg').mask('00.000.000-0');
+        $('#telefone').mask('(00) 00000-0000');
+        $('#cep').mask('00000-000');
+    });
+    </script>
+    
 </head>
 <body>
     <header>
@@ -240,7 +256,7 @@
 
             <div>
                 <label for="cpf">{{ form.cpf.label }}</label>
-                {{ form.cpf(size=50) }}
+                {{ form.cpf(id="cpf", value=cliente.cpf[:3] ~ '.' ~ cliente.cpf[3:6] ~ '.' ~ cliente.cpf[6:9] ~ '-' ~ cliente.cpf[9:]) }}
                 {% for error in form.cpf.errors %}
                     <span style="color: red;">[{{ error }}]</span>
                 {% endfor %}
@@ -248,7 +264,7 @@
 
             <div>
                 <label for="rg">{{ form.rg.label }}</label>
-                {{ form.rg(size=50) }}
+                {{ form.rg(id="rg", value=cliente.rg[:2] ~ '.' ~ cliente.rg[2:5] ~ '.' ~ cliente.rg[5:8] ~ '-' ~ cliente.rg[8:]) }}
                 {% for error in form.rg.errors %}
                     <span style="color: red;">[{{ error }}]</span>
                 {% endfor %}
@@ -256,7 +272,7 @@
 
             <div>
                 <label for="telefone">{{ form.telefone.label }}</label>
-                {{ form.telefone(size=50) }}
+                {{ form.telefone(id="telefone", size=50) }}
                 {% for error in form.telefone.errors %}
                     <span style="color: red;">[{{ error }}]</span>
                 {% endfor %}
@@ -304,7 +320,7 @@
 
             <div>
                 <label for="cep">{{ form.cep.label }}</label>
-                {{ form.cep(size=50) }}
+                {{ form.cep(id="cep", value=cliente.cep[:5] ~ '-' ~ cliente.cep[5:]) }}
                 {% for error in form.cep.errors %}
                     <span style="color: red;">[{{ error }}]</span>
                 {% endfor %}
