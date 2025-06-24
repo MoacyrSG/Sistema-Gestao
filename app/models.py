@@ -35,6 +35,7 @@ class Cliente(db.Model):
     rg = db.Column(db.String(9), nullable=False)
     telefone = db.Column(db.String(15), nullable=False)
     email = db.Column(db.String(100), nullable=False)
+    data_nasc = db.Column(db.Date, nullable=False)
     logradouro = db.Column(db.String(150), nullable=False)
     numero = db.Column(db.String(10), nullable=False)
     complemento = db.Column(db.String(50))
