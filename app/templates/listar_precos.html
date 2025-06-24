@@ -3,6 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Listagem de Preços Tabelados</title>
+
+    {% set meses = {
+        'January': 'Janeiro', 'February': 'Fevereiro', 'March': 'Março',
+        'April': 'Abril', 'May': 'Maio', 'June': 'Junho',
+        'July': 'Julho', 'August': 'Agosto', 'September': 'Setembro',
+        'October': 'Outubro', 'November': 'Novembro', 'December': 'Dezembro'
+    } %}
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
@@ -286,7 +294,7 @@
             {% for preco in precos %}
             <div class="list-item">
                 <div>{{ preco.hospedagem.nome }}</div>
-                <div>{{ preco.validade|format_date('MMMM/yyyy', locale='pt_BR') }}</div>
+                <div>{{ meses[preco.data.strftime('%B')] }}/{{ preco.data.strftime('%Y') }}</div>
                 <div>R$ {{ "{:,.2f}".format(preco.single).replace(",", "X").replace(".", ",").replace("X", ".") }}</div>
                 <div>R$ {{ "{:,.2f}".format(preco.duplo).replace(",", "X").replace(".", ",").replace("X", ".") }}</div>
                 <div>R$ {{ "{:,.2f}".format(preco.triplo).replace(",", "X").replace(".", ",").replace("X", ".") }}</div>
