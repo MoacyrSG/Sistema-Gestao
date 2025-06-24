@@ -309,7 +309,7 @@
             {% for hospedagem in hospedagens %}
             <div class="list-item">
                 <div>{{ hospedagem.nome }}</div>
-                <div>{{ hospedagem.tipo }}</div>
+                <div>{{ hospedagem.tipo|capitalize }}</div>
                 <div>{{ hospedagem.endereco }}</div>
                 <div class="actions">
                     <a href="{{ url_for('main.editar_hospedagem', id=hospedagem.id) }}" class="btn">
