@@ -282,6 +282,13 @@
                 {% endfor %}
             </div>
             <div>
+                {{ form.data_nasc.label }} 
+                {{ form.data_nasc() }}
+                {% for error in form.data_nasc.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </div>
+            <div>
                 {{ form.cep.label }}
                 {{ form.cep(id="cep", size=32) }}
                 {% for error in form.cep.errors %}
