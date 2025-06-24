@@ -5,6 +5,9 @@
     <title>Cadastrar Pacote de Viagem</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    
     <style>
         /* Reset de estilo */
         * {
@@ -276,6 +279,17 @@
         }
     </script>
 
+    <script>
+        $(document).ready(function () {
+            $('.money-field').mask('R$ 000.000.000.000.000,00', {
+                reverse: true,              // digita da direita para a esquerda
+                translation: {              // aceita números sem prefixo obrigatório
+                    '0': {pattern: /\d/}
+                }
+            });
+        });
+    </script>
+
 </head>
 <body>
     <header>
@@ -370,7 +384,7 @@
 
                             <div class="coluna">
                                 {{ subform.preco.label(class="sr-only") }}
-                                {{ subform.preco(class="input-igual") }}
+                                {{ subform.preco(class="input-igual money-field") }}
                             </div>
 
                             <button type="button" class="btn btn-danger" onclick="removerApart(this)">Remover</button>
