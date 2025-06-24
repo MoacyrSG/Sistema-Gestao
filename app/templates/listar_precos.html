@@ -286,7 +286,7 @@
             {% for preco in precos %}
             <div class="list-item">
                 <div>{{ preco.hospedagem.nome }}</div>
-                <div>{{ preco.data.strftime('%B/%Y') }}</div>
+                <div>{{ preco.validade|format_date('MMMM/yyyy', locale='pt_BR') }}</div>
                 <div>R$ {{ "{:,.2f}".format(preco.single).replace(",", "X").replace(".", ",").replace("X", ".") }}</div>
                 <div>R$ {{ "{:,.2f}".format(preco.duplo).replace(",", "X").replace(".", ",").replace("X", ".") }}</div>
                 <div>R$ {{ "{:,.2f}".format(preco.triplo).replace(",", "X").replace(".", ",").replace("X", ".") }}</div>
