@@ -1,4 +1,4 @@
-3from collections import defaultdict
+from collections import defaultdict
 from flask import Blueprint, Response, current_app, render_template, redirect, url_for, flash, request, jsonify, make_response
 from flask_login import login_user, login_required, logout_user
 from app import db
