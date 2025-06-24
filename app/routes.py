@@ -699,11 +699,16 @@ def reservas_pendentes():
 @login_required
 def editar_reserva(id):
     reserva = Reserva.query.get_or_404(id)
-    form = ReservaForm(obj=reserva)
+    
+    # Carrega choices ANTES de criar o form
+    cliente_choices = [(c.id, c.nome) for c in Cliente.query.order_by(Cliente.nome).all()]
+    grupo_choices = [(g.id, g.nome) for g in Grupo.query.order_by(Grupo.nome).all()]
+    hospedagem_choices = [(h.id, h.nome) for h in Hospedagem.query.order_by(Hospedagem.nome).all()]
 
-    form.cliente_id.choices = [(c.id, c.nome) for c in Cliente.query.order_by(Cliente.nome).all()]
-    form.grupo_id.choices = [(g.id, g.nome) for g in Grupo.query.order_by(Grupo.nome).all()]
-    form.hospedagem_id.choices = [(h.id, h.nome) for h in Hospedagem.query.order_by(Hospedagem.nome).all()]
+    form = ReservaForm(obj=reserva)
+    form.cliente_id.choices = cliente_choices
+    form.grupo_id.choices = grupo_choices
+    form.hospedagem_id.choices = hospedagem_choices
     
     # Identificar se a reserva é Grupo ou Pacote
     tipo_reserva = 'grupo' if reserva.grupo_id else 'pacote'
