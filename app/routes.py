@@ -365,7 +365,7 @@ def editar_grupo(id):
                     grupo_id=grupo.id,
                     tipo_apart=subform.data['tipo_apart'],
                     qtd_apart=subform.data['qtd_apart'],
-                    preco=subform.data['preco']
+                    preco=parse_float(subform.data['preco'])
                 )
                 db.session.add(novo_apartamento)
 
