@@ -271,6 +271,14 @@
             </div>
 
             <div>
+                {{ form.data_nasc.label }} 
+                {{ form.data_nasc() }}
+                {% for error in form.data_nasc.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </div>
+
+            <div>
                 <label for="logradouro">{{ form.logradouro.label }}</label>
                 {{ form.logradouro(size=50) }}
                 {% for error in form.logradouro.errors %}
