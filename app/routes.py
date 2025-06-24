@@ -411,6 +411,7 @@ def cadastrar_precos():
             triplo=form.triplo.data,
             quadruplo=form.quadruplo.data,
             chd=form.chd.data,
+            data=form.data.data,
             hospedagem_id=form.hospedagem_id.data
         )
         
