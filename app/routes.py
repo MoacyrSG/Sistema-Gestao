@@ -729,11 +729,15 @@ def editar_reserva(id):
     if reserva.servico_info:
         opcoes_pacote.append('servico')
 
+    
     if form.validate_on_submit():
         form.populate_obj(reserva)
         db.session.commit()
         flash('Reserva atualizada com sucesso!', 'success')
         return redirect(url_for('main.listar_reserva'))
+    else:
+        print("❌ Erros no formulário:")
+        print(form.errors)
 
     return render_template('editar_reserva.html', form=form, reserva=reserva, tipo_reserva=tipo_reserva, opcoes_pacote=opcoes_pacote)
 
