@@ -221,6 +221,7 @@
     <script>
     $(document).ready(function(){
         $('#cnpj').mask('00.000.000/0000-00');
+        $('#telefone').mask('(00) 00000-0000');
     });
     </script>
 </head>
@@ -277,7 +278,7 @@
             
             <div>
                 {{ form.telefone.label }}
-                {{ form.telefone(size=15) }}
+                {{ form.telefone(id="telefone", size=15) }}
                 {% for error in form.telefone.errors %}
                     <span class="form-error">[{{ error }}]</span>
                 {% endfor %}
