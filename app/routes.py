@@ -203,7 +203,7 @@ def cadastrar_grupo():
             tipo_apartamento = GrupoApartamento(
                 tipo_apart=tipo_form.tipo_apart.data,
                 qtd_apart=tipo_form.qtd_apart.data,
-                preco=tipo_form.preco.data
+                preco=parse_currency_ptbr(tipo_form.preco.data)
             )
             novo_grupo.tipos_apartamentos.append(tipo_apartamento)
 
@@ -406,11 +406,11 @@ def cadastrar_precos():
     
     if form.validate_on_submit():        
         preco_tabelado = PrecoTabelado(
-            single=form.single.data,
-            duplo=form.duplo.data,
-            triplo=form.triplo.data,
-            quadruplo=form.quadruplo.data,
-            chd=form.chd.data,
+            single=parse_currency_ptbr(form.single.data),
+            duplo=parse_currency_ptbr(form.duplo.data),
+            triplo=parse_currency_ptbr(form.triplo.data),
+            quadruplo=parse_currency_ptbr(form.quadruplo.data),
+            chd=parse_currency_ptbr(form.chd.data),
             data=form.data.data,
             hospedagem_id=form.hospedagem_id.data
         )
