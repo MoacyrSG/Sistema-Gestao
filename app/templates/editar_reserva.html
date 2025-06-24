@@ -401,8 +401,8 @@
             
             {% if tipo_reserva == 'grupo' %}
                 <div class="mb-3">
-                    <label class="form-label">Nome do Grupo:</label>
-                    <input type="text" class="form-control" name="grupo_id" value="{{ reserva.nome_grupo }}">
+                    <label for="grupo_id">Grupo</label>
+                    {{ form.grupo_id(class="form-control") }}
                 </div>
             {% endif %}
             
