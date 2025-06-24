@@ -48,9 +48,9 @@ class HospedagemForm(FlaskForm):
     submit = SubmitField('Cadastrar')
     
 class TipoApartamentoForm(FlaskForm):
-    tipo_apart = StringField('Tipo do Apartamento', validators=[DataRequired()])
-    qtd_apart = IntegerField('Quantidade de Apartamentos', validators=[DataRequired(), NumberRange(min=1)])
-    preco = FloatField('Preço', validators=[DataRequired()])
+    tipo_apart = StringField('Tipo do Apartamento')
+    qtd_apart = IntegerField('Quantidade de Apartamentos', validators=[NumberRange(min=1)])
+    preco = StringField('Preço')
 
 class GrupoForm(FlaskForm):
     nome = StringField('Nome do Grupo', validators=[DataRequired()])
@@ -63,11 +63,11 @@ class GrupoForm(FlaskForm):
     submit = SubmitField('Cadastrar Grupo')
 
 class PrecoTabeladoForm(FlaskForm):
-    single = FloatField('Single', validators=[DataRequired()])
-    duplo = FloatField('Duplo', validators=[DataRequired()])
-    triplo = FloatField('Triplo', validators=[DataRequired()])
-    quadruplo = FloatField('Quádruplo', validators=[DataRequired()])
-    chd = FloatField('CHD', validators=[DataRequired()])
+    single = StringField('Single')
+    duplo = StringField('Duplo')
+    triplo = StringField('Triplo')
+    quadruplo = StringField('Quádruplo')
+    chd = StringField('CHD')
     data = DateField('Data de Validade', format='%Y-%m-%d')
     hospedagem_id = SelectField('Hospedagem', coerce=int, validators=[DataRequired()])
     submit = SubmitField('Cadastrar Preço')
