@@ -102,7 +102,7 @@
 
         .list-header, .list-item {
             display: grid;
-            grid-template-columns: 4fr 2fr 2fr 2fr 2fr 2fr 3fr;
+            grid-template-columns: 4fr 2fr 2fr 2fr 2fr 2fr 2fr 3fr;
             align-items: center;
             padding: 15px;
             border-bottom: 2px solid #e0e0e0;
@@ -274,6 +274,7 @@
         <div class="list-container">
             <div class="list-header">
                 <div>Hospedagem</div>
+                <div>Data de Validade</div>
                 <div>Single</div>
                 <div>Duplo</div>
                 <div>Triplo</div>
@@ -285,6 +286,7 @@
             {% for preco in precos %}
             <div class="list-item">
                 <div>{{ preco.hospedagem.nome }}</div>
+                <div>{{ preco.data.strftime('%B/%Y') }}</div>
                 <div>R$ {{ "{:,.2f}".format(preco.single).replace(",", "X").replace(".", ",").replace("X", ".") }}</div>
                 <div>R$ {{ "{:,.2f}".format(preco.duplo).replace(",", "X").replace(".", ",").replace("X", ".") }}</div>
                 <div>R$ {{ "{:,.2f}".format(preco.triplo).replace(",", "X").replace(".", ",").replace("X", ".") }}</div>
