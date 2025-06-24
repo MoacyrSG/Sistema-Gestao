@@ -435,7 +435,7 @@ def listar_precos():
     else:
         precos_query = PrecoTabelado.query
 
-    precos = precos_query.order_by(PrecoTabelado.id.asc()).paginate(page=pagina, per_page=5, error_out=False)
+    precos = precos_query.order_by(PrecoTabelado.data.asc()).paginate(page=pagina, per_page=5, error_out=False)
 
     return render_template('listar_precos.html', precos=precos, busca=busca)
 
