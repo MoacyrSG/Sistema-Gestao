@@ -142,6 +142,7 @@ def cadastrar_cliente():
             rg=form.rg.data,
             telefone=form.telefone.data,
             email=form.email.data,
+            data_nasc=form.data_nasc.data,
             logradouro=form.logradouro.data,
             numero=form.numero.data,
             complemento=form.complemento.data,
