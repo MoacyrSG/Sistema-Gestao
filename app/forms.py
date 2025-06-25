@@ -27,7 +27,7 @@ class ClienteForm(FlaskForm):
     rg = StringField('RG', filters=[only_digits], validators=[Length(max=9), Optional()])
     telefone = StringField('Telefone', validators=[Length(max=15), Optional()])
     email = StringField('Email', validators=[Length(max=100), Optional()])
-    data_nasc = DateField('Data de Nascimento', format='%d/%m/%Y', validators=[Optional()])
+    data_nasc = DateField('Data de Nascimento', format='%Y-%m-%d', validators=[Optional()])
     logradouro = StringField('Logradouro', validators=[Length(max=150), Optional()])
     numero = StringField('Número', validators=[Length(max=10), Optional()])
     complemento = StringField('Complemento', validators=[Length(max=50), Optional()])
