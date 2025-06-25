@@ -41,7 +41,7 @@ class ClienteForm(FlaskForm):
 class HospedagemForm(FlaskForm):
     nome = StringField('Nome', validators=[DataRequired(), Length(max=100)])
     tipo = SelectField('Tipo', choices=[('hotel', 'Hotel'), ('resort', 'Resort'), ('pousada', 'Pousada')], validators=[DataRequired()])
-    cnpj = StringField('CNPJ', validators=[Opational(), Length(max=50)])
+    cnpj = StringField('CNPJ', validators=[Optional(), Length(max=50)])
     endereco = StringField('Endereço', validators=[Optional(), Length(max=150)])
     telefone = StringField('Telefone', validators=[Optional(), Length(max=15)])
     descricao = TextAreaField('Descrição', validators=[Optional()])
