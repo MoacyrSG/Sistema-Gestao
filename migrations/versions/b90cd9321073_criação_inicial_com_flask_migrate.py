@@ -1,8 +1,8 @@
-"""Criação inicial
+"""Criação inicial com Flask-Migrate
 
-Revision ID: d3e2cc1aac94
+Revision ID: b90cd9321073
 Revises: 
-Create Date: 2025-06-25 17:52:25.629674
+Create Date: 2025-06-25 18:10:08.584721
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'd3e2cc1aac94'
+revision = 'b90cd9321073'
 down_revision = None
 branch_labels = None
 depends_on = None

@@ -23,6 +23,7 @@ def create_app():
     # Inicializando o banco de dados e o LoginManager
     db.init_app(app)
     login_manager.init_app(app)
+    
     migrate.init_app(app, db)
 
     # Configurando a página de login
@@ -31,7 +32,6 @@ def create_app():
     # Registrando o blueprint
     from .routes import main as main_blueprint
     app.register_blueprint(main_blueprint)
-
     return app
 
 # Função para carregar o usuário
