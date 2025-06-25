@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+from flask_migrate import Migrate
 from dotenv import load_dotenv
 import os
 
@@ -11,6 +12,8 @@ load_dotenv()
 db = SQLAlchemy()
 login_manager = LoginManager()
 
+migrate = Migrate()
+
 def create_app():
     app = Flask(__name__)
 
@@ -20,17 +23,14 @@ def create_app():
     # Inicializando o banco de dados e o LoginManager
     db.init_app(app)
     login_manager.init_app(app)
+    migrate.init_app(app, db)
 
     # Configurando a página de login
     login_manager.login_view = 'main.login'  # Define qual a rota que os usuários não autenticados serão redirecionados
 
-    with app.app_context():
-        # Registrando o blueprint
-        from .routes import main as main_blueprint
-        app.register_blueprint(main_blueprint)
-
-        # Criando as tabelas no banco de dados, caso ainda não existam
-        db.create_all()
+    # Registrando o blueprint
+    from .routes import main as main_blueprint
+    app.register_blueprint(main_blueprint)
 
     return app
 
