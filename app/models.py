@@ -92,7 +92,8 @@ class PrecoTabelado(db.Model):
     triplo = db.Column(db.Float, nullable=False)
     quadruplo = db.Column(db.Float, nullable=False)
     chd = db.Column(db.Float, nullable=False)
-    data = db.Column(db.Date, nullable=False)
+    data_inicio = db.Column(db.Date, nullable=False)
+    data_fim = db.Column(db.Date, nullable=False)
     hospedagem_id = db.Column(db.Integer, ForeignKey('hospedagens.id'), nullable=False)
     hospedagem = relationship('Hospedagem', backref='preco_tabelado')
     

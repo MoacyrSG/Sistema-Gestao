@@ -411,7 +411,8 @@ def cadastrar_precos():
             triplo=parse_currency_ptbr(form.triplo.data),
             quadruplo=parse_currency_ptbr(form.quadruplo.data),
             chd=parse_currency_ptbr(form.chd.data),
-            data=form.data.data,
+            data_inicio=form.data_inicio.data,
+            data_fim=form.data_fim.data,
             hospedagem_id=form.hospedagem_id.data
         )
         
@@ -435,7 +436,7 @@ def listar_precos():
     else:
         precos_query = PrecoTabelado.query
 
-    precos = precos_query.order_by(PrecoTabelado.data.asc()).paginate(page=pagina, per_page=5, error_out=False)
+    precos = precos_query.order_by(PrecoTabelado.data_inicio.asc()).paginate(page=pagina, per_page=5, error_out=False)
 
     return render_template('listar_precos.html', precos=precos, busca=busca)
 
@@ -455,7 +456,8 @@ def editar_precos(id):
             preco.triplo = parse_float(form.triplo.data)
             preco.quadruplo = parse_float(form.quadruplo.data)
             preco.chd = parse_float(form.chd.data)
-            preco.data = form.data.data
+            preco.data_inicio = form.data_inicio.data
+            preco.data_fim = form.data_fim.data
             preco.hospedagem_id = form.hospedagem_id.data
 
             db.session.commit()

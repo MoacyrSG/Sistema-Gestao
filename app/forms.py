@@ -68,7 +68,8 @@ class PrecoTabeladoForm(FlaskForm):
     triplo = StringField('Triplo', validators=[Optional()])
     quadruplo = StringField('Quádruplo', validators=[Optional()])
     chd = StringField('CHD', validators=[Optional()])
-    data = DateField('Data de Validade', format='%Y-%m-%d', validators=[Optional()])
+    data_inicio = DateField('Data Início', format='%Y-%m-%d', validators=[Optional()])
+    data_fim = DateField('Data Fim', format='%Y-%m-%d', validators=[Optional()])
     hospedagem_id = SelectField('Hospedagem', coerce=int, validators=[DataRequired()])
     submit = SubmitField('Cadastrar Preço')
 
