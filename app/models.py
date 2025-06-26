@@ -160,6 +160,7 @@ class Reserva(db.Model):
     servico_info = db.Column(db.Text, nullable=True)
     
     diaria = db.Column(db.Float, nullable=True)
+    diaria_crianca = db.Column(db.Float, nullable=True)
     diaria_pessoa = db.Column(db.Float, nullable=True)
     valor_total = db.Column(db.Float, nullable=True)
     depositos_confirmados = db.Column(db.Float, nullable=True)
