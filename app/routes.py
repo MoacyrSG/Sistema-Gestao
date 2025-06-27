@@ -438,8 +438,13 @@ def listar_precos():
 
     return render_template('listar_precos.html', precos=precos, busca=busca)
 
-def formatar_moeda_ptbr(valor):
-    return f"R$ {valor:,.2f}".replace('.', 'X').replace(',', '.').replace('X', ',')
+
+def format_moeda(valor):
+    try:
+        return "{:,.2f}".format(float(valor)).replace(",", "X").replace(".", ",").replace("X", ".")
+    except:
+        return "0,00"
+
 
 
 @main.route('/editar_precos/<int:id>', methods=['GET', 'POST'])
@@ -447,11 +452,11 @@ def formatar_moeda_ptbr(valor):
 def editar_precos(id):
     preco = PrecoTabelado.query.get_or_404(id)
     form = PrecoTabeladoForm(
-        single=formatar_moeda_ptbr(preco.single),
-        duplo=formatar_moeda_ptbr(preco.duplo),
-        triplo=formatar_moeda_ptbr(preco.triplo),
-        quadruplo=formatar_moeda_ptbr(preco.quadruplo),
-        chd=formatar_moeda_ptbr(preco.chd),
+        single=format_moeda(preco.single),
+        duplo=format_moeda(preco.duplo),
+        triplo=format_moeda(preco.triplo),
+        quadruplo=format_moeda(preco.quadruplo),
+        chd=format_moeda(preco.chd),
         data_inicio=preco.data_inicio,
         data_fim=preco.data_fim,
         hospedagem=preco.hospedagem
@@ -477,7 +482,7 @@ def editar_precos(id):
             db.session.rollback()
             flash(f'Erro ao atualizar o preço: {e}', 'danger')
     
-    return render_template('editar_precos.html', form=form, preco=preco)
+    return render_template('editar_precos.html', form=form, preco=preco, format_moeda=format_moeda)
 
 
 
