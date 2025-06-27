@@ -217,12 +217,7 @@
 
     <script>
         $(document).ready(function () {
-            $('.money-field').mask('R$ 000.000.000.000.000,00', {
-                reverse: true,              // digita da direita para a esquerda
-                translation: {              // aceita números sem prefixo obrigatório
-                    '0': {pattern: /\d/}
-                }
-            });
+            $('.money-field').mask('R$ #.##0,00', {reverse: true});
         });
     </script>
 </head>
