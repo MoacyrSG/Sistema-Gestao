@@ -248,11 +248,8 @@
             {{ form.hidden_tag() }}
 
             <div>
-                {{ form.hospedagem_id.label }} 
-                {{ form.hospedagem_id() }}
-                {% for error in form.hospedagem_id.errors %}
-                    <span style="color: red;">[{{ error }}]</span>
-                {% endfor %}
+                <label for="hospedagem">{{ form.hospedagem.label }}</label> 
+                {{ form.hospedagem() }}
             </div>
 
             <div>

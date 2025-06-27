@@ -70,7 +70,7 @@ class PrecoTabeladoForm(FlaskForm):
     chd = StringField('CHD', validators=[Optional()])
     data_inicio = DateField('Data Início', format='%Y-%m-%d', validators=[Optional()])
     data_fim = DateField('Data Fim', format='%Y-%m-%d', validators=[Optional()])
-    hospedagem_id = SelectField('Hospedagem', coerce=int, validators=[DataRequired()])
+    hospedagem = StringField('Endereço', validators=[DataRequired(), Length(max=150)])
     submit = SubmitField('Cadastrar Preço')
 
     

@@ -402,8 +402,6 @@ def excluir_grupo(id):
 def cadastrar_precos():
     form = PrecoTabeladoForm()
     
-    form.hospedagem_id.choices = [(h.id, h.nome) for h in Hospedagem.query.all()]
-    
     if form.validate_on_submit():        
         preco_tabelado = PrecoTabelado(
             single=parse_currency_ptbr(form.single.data),
@@ -413,7 +411,7 @@ def cadastrar_precos():
             chd=parse_currency_ptbr(form.chd.data),
             data_inicio=form.data_inicio.data,
             data_fim=form.data_fim.data,
-            hospedagem_id=form.hospedagem_id.data
+            hospedagem=form.hospedagem.data
         )
         
         db.session.add(preco_tabelado)
@@ -440,14 +438,26 @@ def listar_precos():
 
     return render_template('listar_precos.html', precos=precos, busca=busca)
 
+def formatar_moeda_ptbr(valor):
+    return f"R$ {valor:,.2f}".replace('.', 'X').replace(',', '.').replace('X', ',')
+
 
 @main.route('/editar_precos/<int:id>', methods=['GET', 'POST'])
 @login_required
 def editar_precos(id):
     preco = PrecoTabelado.query.get_or_404(id)
-    form = PrecoTabeladoForm(obj=preco)
-    
-    form.hospedagem_id.choices = [(h.id, h.nome) for h in Hospedagem.query.all()]
+    form = PrecoTabeladoForm(
+        single=formatar_moeda_ptbr(preco.single),
+        duplo=formatar_moeda_ptbr(preco.duplo),
+        triplo=formatar_moeda_ptbr(preco.triplo),
+        quadruplo=formatar_moeda_ptbr(preco.quadruplo),
+        chd=formatar_moeda_ptbr(preco.chd),
+        data_inicio=preco.data_inicio,
+        data_fim=preco.data_fim,
+        hospedagem=preco.hospedagem
+    )
+
+
     
     if form.validate_on_submit():
         try:
@@ -458,7 +468,7 @@ def editar_precos(id):
             preco.chd = parse_float(form.chd.data)
             preco.data_inicio = form.data_inicio.data
             preco.data_fim = form.data_fim.data
-            preco.hospedagem_id = form.hospedagem_id.data
+            preco.hospedagem = form.hospedagem.data
 
             db.session.commit()
             flash('Preço atualizado com sucesso!', 'success')

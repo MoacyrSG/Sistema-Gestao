@@ -1,5 +1,5 @@
 from app import db
-from sqlalchemy import ARRAY, ForeignKey
+from sqlalchemy import ARRAY, ForeignKey, Numeric
 from sqlalchemy.orm import relationship
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
@@ -87,15 +87,14 @@ class PrecoTabelado(db.Model):
     __tablename__ = 'preco_tabelado'    
     
     id = db.Column(db.Integer, primary_key=True)
-    single = db.Column(db.Float, nullable=False)
-    duplo = db.Column(db.Float, nullable=False)
-    triplo = db.Column(db.Float, nullable=False)
-    quadruplo = db.Column(db.Float, nullable=False)
-    chd = db.Column(db.Float, nullable=False)
+    single = db.Column(Numeric(10, 2), nullable=False)
+    duplo = db.Column(Numeric(10, 2), nullable=False)
+    triplo = db.Column(Numeric(10, 2), nullable=False)
+    quadruplo = db.Column(Numeric(10, 2), nullable=False)
+    chd = db.Column(Numeric(10, 2), nullable=False)
     data_inicio = db.Column(db.Date, nullable=False)
     data_fim = db.Column(db.Date, nullable=False)
-    hospedagem_id = db.Column(db.Integer, ForeignKey('hospedagens.id'), nullable=False)
-    hospedagem = relationship('Hospedagem', backref='preco_tabelado')
+    hospedagem = db.Column(db.String(150), nullable=False)
     
     
 class Reserva(db.Model):
