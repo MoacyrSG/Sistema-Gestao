@@ -451,18 +451,6 @@ def format_moeda(valor):
 @login_required
 def editar_precos(id):
     preco = PrecoTabelado.query.get_or_404(id)
-    form = PrecoTabeladoForm(
-        single=format_moeda(preco.single),
-        duplo=format_moeda(preco.duplo),
-        triplo=format_moeda(preco.triplo),
-        quadruplo=format_moeda(preco.quadruplo),
-        chd=format_moeda(preco.chd),
-        data_inicio=preco.data_inicio,
-        data_fim=preco.data_fim,
-        hospedagem=preco.hospedagem
-    )
-
-
     
     if form.validate_on_submit():
         try:
