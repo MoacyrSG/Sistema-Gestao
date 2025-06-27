@@ -257,27 +257,27 @@
             
             <div>
                 <label for="single">{{ form.single.label }}</label>
-                {{ form.single(class="money-field", value="{:,.2f}".format(form.single.data or 0).replace(",", "X").replace(".", ",").replace("X", ".")) }}
+                {{ form.single(class="money-field", value="{:,.2f}".format(float(form.single.data or 0)).replace(",", "X").replace(".", ",").replace("X", ".")) }}
             </div>
             
             <div>
                 <label for="duplo">{{ form.duplo.label }}</label>
-                {{ form.duplo(class="money-field", value="{:,.2f}".format(form.duplo.data or 0).replace(",", "X").replace(".", ",").replace("X", ".")) }}
+                {{ form.duplo(class="money-field", value="{:,.2f}".format(float(form.duplo.data or 0)).replace(",", "X").replace(".", ",").replace("X", ".")) }}
             </div>
             
             <div>
                 <label for="triplo">{{ form.triplo.label }}</label>
-                {{ form.triplo(class="money-field", value="{:,.2f}".format(form.triplo.data or 0).replace(",", "X").replace(".", ",").replace("X", ".")) }}
+                {{ form.triplo(class="money-field", value="{:,.2f}".format(float(form.triplo.data or 0)).replace(",", "X").replace(".", ",").replace("X", ".")) }}
             </div>
             
             <div>
                 <label for="quadruplo">{{ form.quadruplo.label }}</label>
-                {{ form.quadruplo(class="money-field", value="{:,.2f}".format(form.quadruplo.data or 0).replace(",", "X").replace(".", ",").replace("X", ".")) }}
+                {{ form.quadruplo(class="money-field", value="{:,.2f}".format(float(form.quadruplo.data or 0)).replace(",", "X").replace(".", ",").replace("X", ".")) }}
             </div>
             
             <div>
                 <label for="chd">{{ form.chd.label }}</label>
-                {{ form.chd(class="money-field", value="{:,.2f}".format(form.chd.data or 0).replace(",", "X").replace(".", ",").replace("X", ".")) }}
+                {{ form.chd(class="money-field", value="{:,.2f}".format(float(form.chd.data or 0)).replace(",", "X").replace(".", ",").replace("X", ".")) }}
             </div>
             
             <button type="submit" class="btn-submit">Salvar Alterações</button>
