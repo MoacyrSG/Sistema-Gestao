@@ -310,6 +310,13 @@
                 {% endfor %}
             </div>
             <div>
+                {{ form.bairro.label }}
+                {{ form.bairro(size=32) }}
+                {% for error in form.bairro.errors %}
+                    <span class="form-error">[{{ error }}]</span>
+                {% endfor %}
+            </div>
+            <div>
                 {{ form.complemento.label }}
                 {{ form.complemento(size=32) }}
                 {% for error in form.complemento.errors %}

@@ -37,6 +37,7 @@ class Cliente(db.Model):
     email = db.Column(db.String(100), nullable=False)
     data_nasc = db.Column(db.Date, nullable=True)
     logradouro = db.Column(db.String(150), nullable=False)
+    bairro = db.Column(db.String(150), nullable=False)
     numero = db.Column(db.String(10), nullable=False)
     complemento = db.Column(db.String(50))
     cep = db.Column(db.String(8), nullable=False)

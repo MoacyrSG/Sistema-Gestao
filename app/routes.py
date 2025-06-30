@@ -146,6 +146,7 @@ def cadastrar_cliente():
             email=form.email.data,
             data_nasc=form.data_nasc.data,
             logradouro=form.logradouro.data,
+            bairro=form.bairro.data,
             numero=form.numero.data,
             complemento=form.complemento.data,
             cep=form.cep.data,

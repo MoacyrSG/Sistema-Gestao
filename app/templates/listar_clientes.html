@@ -328,7 +328,7 @@
                 <div id="telefone">{{ cliente.telefone }}</div>
                 <div>{{ cliente.email }}</div>
                 <div>
-                    {{ cliente.logradouro }}, {{ cliente.numero }} - {{ cliente.complemento or '-' }}<br>
+                    {{ cliente.logradouro }}, {{ cliente.numero }} - {{ cliente.bairro }} - {{ cliente.complemento or ' ' }}<br>
                     <span id="cep">{{ cliente.cep }}</span> - {{ cliente.municipio }}/{{ cliente.estado }}, {{ cliente.pais }}
                 </div>
                 <div class="actions">

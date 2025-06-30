@@ -311,6 +311,14 @@
             </div>
 
             <div>
+                <label for="bairro">{{ form.bairro.label }}</label>
+                {{ form.bairro(size=50) }}
+                {% for error in form.bairro.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </div>
+
+            <div>
                 <label for="complemento">{{ form.complemento.label }}</label>
                 {{ form.complemento(size=50) }}
                 {% for error in form.complemento.errors %}
