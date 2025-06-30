@@ -19,6 +19,8 @@ from sqlalchemy import case, extract, func
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
 import pytz, os
 from decimal import Decimal
+from datetime import datetime
+
 
 
 
@@ -427,16 +429,38 @@ def cadastrar_precos():
 @login_required
 def listar_precos():
     busca = request.args.get('busca', '')
+    data_inicio = request.args.get('data_inicio')
+    data_fim = request.args.get('data_fim')
     pagina = request.args.get('pagina', 1, type=int)
 
+    precos_query = PrecoTabelado.query
+
+    # Filtro por hospedagem
     if busca:
-        precos_query = PrecoTabelado.query.filter(PrecoTabelado.hospedagem.ilike(f'%{busca}%'))
-    else:
-        precos_query = PrecoTabelado.query
+        precos_query = precos_query.filter(PrecoTabelado.hospedagem.ilike(f'%{busca}%'))
+
+    # Filtro por intervalo de datas
+    if data_inicio and data_fim:
+        try:
+            data_inicio = datetime.strptime(data_inicio, "%Y-%m-%d").date()
+            data_fim = datetime.strptime(data_fim, "%Y-%m-%d").date()
+            precos_query = precos_query.filter(
+                PrecoTabelado.data_inicio >= data_inicio,
+                PrecoTabelado.data_inicio <= data_fim
+            )
+        except ValueError:
+            flash("Formato de data inválido. Use AAAA-MM-DD.", "danger")
 
     precos = precos_query.order_by(PrecoTabelado.data_inicio.asc()).paginate(page=pagina, per_page=5, error_out=False)
 
-    return render_template('listar_precos.html', precos=precos, busca=busca)
+    return render_template(
+        'listar_precos.html',
+        precos=precos,
+        busca=busca,
+        data_inicio=request.args.get('data_inicio', ''),
+        data_fim=request.args.get('data_fim', '')
+    )
+
 
 
 def format_moeda(valor):
