@@ -1338,20 +1338,26 @@ def gerar_voucher(id):
 
     # Valores
     hospedes = Hospede.query.filter_by(reserva_id=reserva.id).all()
-    nome_hospede = hospedes[0].nome if hospedes else "Nenhum hóspede informado"
-    
-    partes_nome = nome_hospede.strip().split()
-    if len(partes_nome) > 1:
-        sobrenome = partes_nome[-1]
-        nome = " ".join(partes_nome[:-1])
-        nome_formatado_hospede = f"{sobrenome}, {nome}"
-    else:
-        nome_formatado_hospede = nome_hospede
 
     c.setFont("Helvetica", 11)
-    c.drawString(x_nome, y, nome_formatado_hospede)
-    c.drawString(x_chegada, y, reserva.data_ida.strftime('%d/%m/%Y'))
-    c.drawString(x_partida, y, reserva.data_volta.strftime('%d/%m/%Y'))
+    
+    if hospedes:
+        for hospede in hospedes:
+            partes_nome = hospede.nome.strip().split()
+            if len(partes_nome) > 1:
+                sobrenome = partes_nome[-1]
+                nome = " ".join(partes_nome[:-1])
+                nome_formatado = f"{sobrenome}, {nome}"
+            else:
+                nome_formatado = hospede.nome
+    
+            c.drawString(x_nome, y, nome_formatado)
+            c.drawString(x_chegada, y, reserva.data_ida.strftime('%d/%m/%Y'))
+            c.drawString(x_partida, y, reserva.data_volta.strftime('%d/%m/%Y'))
+            y -= 18  # Desce uma linha a cada hóspede
+    else:
+        c.drawString(x_nome, y, "Nenhum hóspede informado")
+        y -= 18
 
     y -= 20
 
