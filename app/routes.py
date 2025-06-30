@@ -430,7 +430,7 @@ def listar_precos():
     pagina = request.args.get('pagina', 1, type=int)
 
     if busca:
-        precos_query = PrecoTabelado.query.join(Hospedagem).filter(Hospedagem.nome.ilike(f'%{busca}%'))
+        precos_query = PrecoTabelado.query.filter(PrecoTabelado.hospedagem.ilike(f'%{busca}%'))
     else:
         precos_query = PrecoTabelado.query
 
