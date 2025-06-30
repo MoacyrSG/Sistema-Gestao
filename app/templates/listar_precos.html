@@ -273,10 +273,23 @@
             </a>
         </div>  
         
-        <form method="get" action="{{ url_for('main.listar_precos') }}">
-            <input type="text" name="busca" value="{{ busca }}" placeholder="Pesquisar por nome da hospedagem..." style="padding: 8px; margin-bottom: 20px; width: 100%; font-size: 1rem;">
-            <button type="submit" style="display:none;"></button>
-        </form>  
+        <form method="get" action="{{ url_for('main.listar_precos') }}" class="filtros-form" style="margin-bottom: 20px;">
+            <input type="text" name="busca" value="{{ busca }}" placeholder="Pesquisar por nome da hospedagem..." style="padding: 8px; width: 100%; font-size: 1rem; margin-bottom: 10px;">
+        
+            <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;">
+                <div style="flex: 1;">
+                    <label for="data_inicio">Data início:</label>
+                    <input type="date" name="data_inicio" value="{{ data_inicio }}" style="padding: 8px; width: 100%;">
+                </div>
+                <div style="flex: 1;">
+                    <label for="data_fim">Data fim:</label>
+                    <input type="date" name="data_fim" value="{{ data_fim }}" style="padding: 8px; width: 100%;">
+                </div>
+            </div>
+        
+            <button type="submit" style="padding: 10px 20px; font-size: 1rem;">Filtrar</button>
+        </form>
+ 
     
         {% if precos %}
         <div class="list-container">
