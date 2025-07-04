@@ -1259,22 +1259,21 @@ def gerar_voucher(id):
     data_geracao = agora.strftime("%d/%m/%Y")
     hora_geracao = agora.strftime("%H:%M")
 
-    data = reserva.data_ida  # datetime com fuso de Brasília
-    ano = str(data.year)[-2:]    # ex: 2025 -> '25'
-    mes = str(data.month).zfill(2)  # ex: 4 -> '04'
+    data = reserva.data_ida  # data da viagem
+    ano = str(data.year)[-2:]
+    mes = str(data.month).zfill(2)
     
-    # Contar quantas reservas existem no mesmo mês/ano da data_ida
-    qtde_reservas_mes = Reserva.query.filter(
+    # Filtrar todas as reservas com data_ida no mesmo mês/ano
+    reservas_mes = Reserva.query.filter(
         db.extract('year', Reserva.data_ida) == data.year,
-        db.extract('month', Reserva.data_ida) == data.month,
-        Reserva.data_ida <= data  # apenas anteriores ou no mesmo dia
-    ).order_by(Reserva.data_ida).all()
+        db.extract('month', Reserva.data_ida) == data.month
+    ).order_by(Reserva.data_reserva).all()  # Ordena pela data de criação da reserva
     
-    # Posição dessa reserva na lista
-    ordem_no_mes = qtde_reservas_mes.index(reserva) + 1
+    # Descobrir a posição da reserva atual na lista (ordem de cadastro)
+    ordem_no_mes = reservas_mes.index(reserva) + 1
     numero = str(ordem_no_mes).zfill(2)
-
-    # Monta o número da reserva
+    
+    # Gerar o número final do voucher
     numero_reserva = f"{ano}{mes}{numero}"
 
     title_x = 220  # Posição horizontal do texto centralizado
