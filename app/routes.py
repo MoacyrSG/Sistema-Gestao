@@ -1327,16 +1327,10 @@ def gerar_voucher(id):
     y -= 30
 
     # Títulos
-    c.setFont("Helvetica-Bold", 11)
+    c.setFont("Helvetica", 11)
     x_nome = 50
     x_chegada = 300
     x_partida = 450
-
-    c.drawString(x_nome, y, "Nome do Hóspede")
-    c.drawString(x_chegada, y, "Data de Chegada")
-    c.drawString(x_partida, y, "Data de Partida")
-
-    y -= 18
 
     # Valores
     hospedes = Hospede.query.filter_by(reserva_id=reserva.id).all()
@@ -1345,6 +1339,12 @@ def gerar_voucher(id):
     
     if hospedes:
         for hospede in hospedes:
+            c.drawString(x_nome, y, "Nome do Hóspede")
+            c.drawString(x_chegada, y, "Data de Chegada")
+            c.drawString(x_partida, y, "Data de Partida")
+        
+            y -= 18
+            
             partes_nome = hospede.nome.strip().split()
             if len(partes_nome) > 1:
                 sobrenome = partes_nome[-1]
