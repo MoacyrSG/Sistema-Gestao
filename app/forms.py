@@ -51,7 +51,7 @@ class HospedagemForm(FlaskForm):
 class TipoApartamentoForm(FlaskForm):
     tipo_apart = StringField('Tipo do Apartamento')
     qtd_apart = IntegerField('Quantidade de Apartamentos', validators=[NumberRange(min=1)])
-    preco = StringField('Preço')
+    preco = StringField('Preço', validators=[Optional()])
 
 class GrupoForm(FlaskForm):
     nome = StringField('Nome do Grupo', validators=[DataRequired()])
