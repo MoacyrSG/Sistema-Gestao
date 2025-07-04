@@ -80,7 +80,7 @@ class GrupoApartamento(db.Model):
     id_grupo = db.Column(db.String(10), nullable=True)  # Adicionando o id_grupo
     tipo_apart = db.Column(db.String(30), nullable=False)
     qtd_apart = db.Column(db.Integer, nullable=False)
-    preco = db.Column(db.Float, nullable=False, default=0.0)
+    preco = db.Column(Numeric(10, 2), nullable=False)
     grupo = db.relationship('Grupo', back_populates='tipos_apartamentos')
     
     
