@@ -43,7 +43,15 @@ def parse_float(valor_str):
         return float(valor_str.replace('.', '').replace(',', '.'))
     except Exception:
         return 0.0
-        
+
+
+def format_moeda(valor):
+    try:
+        return "{:,.2f}".format(float(valor)).replace(",", "X").replace(".", ",").replace("X", ".")
+    except:
+        return "0,00"
+
+
 
 @main.route('/login', methods=['GET', 'POST'])
 def login():
@@ -380,7 +388,7 @@ def editar_grupo(id):
             db.session.rollback()
             flash(f'Erro ao atualizar o grupo: {e}', 'danger')
 
-    return render_template('editar_grupo.html', form=form, grupo=grupo)
+    return render_template('editar_grupo.html', form=form, grupo=grupo, format_moeda=format_moeda)
 
 
 
@@ -462,13 +470,6 @@ def listar_precos():
         data_fim=request.args.get('data_fim', '')
     )
 
-
-
-def format_moeda(valor):
-    try:
-        return "{:,.2f}".format(float(valor)).replace(",", "X").replace(".", ",").replace("X", ".")
-    except:
-        return "0,00"
 
 
 
