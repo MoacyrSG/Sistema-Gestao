@@ -1444,7 +1444,7 @@ def gerar_voucher(id):
     c.drawString(50, y, "Diária:")
     c.setFont("Helvetica-Bold", 11)
     c.drawString(85, y, "R$")
-    c.drawString(100, y, str(reserva.diaria) if reserva.diaria else "")
+    c.drawString(100, y, format_moeda(reserva.diaria) if reserva.diaria else "")
     
     y -= 30
     
@@ -1452,7 +1452,7 @@ def gerar_voucher(id):
     c.drawString(50, y, "Total de Diárias por pessoa:")
     c.setFont("Helvetica-Bold", 11)
     c.drawString(190, y, "R$")
-    c.drawString(205, y, str(reserva.diaria_pessoa) if reserva.diaria_pessoa else "")
+    c.drawString(205, y, format_moeda(reserva.diaria_pessoa) if reserva.diaria_pessoa else "")
     
     y -= 30
     
@@ -1460,13 +1460,13 @@ def gerar_voucher(id):
     c.drawString(50, y, "Depósitos Negociados:")
     c.setFont("Helvetica-Bold", 11)
     c.drawString(165, y, "R$")
-    c.drawString(180, y, str(reserva.valor_total) if reserva.valor_total else "")
+    c.drawString(180, y, format_moeda(reserva.valor_total) if reserva.valor_total else "")
     
     c.setFont("Helvetica", 11)
     c.drawString(320, y, "Depósitos Confirmados:")
     c.setFont("Helvetica-Bold", 11)
     c.drawString(440, y, "R$")
-    c.drawString(455, y, str(reserva.depositos_confirmados) if reserva.depositos_confirmados else "")
+    c.drawString(455, y, format_moeda(reserva.depositos_confirmados) if reserva.depositos_confirmados else "")
     
     y -= 30
     
