@@ -102,7 +102,7 @@ class Reserva(db.Model):
     __tablename__ = 'reservas'
     
     id = db.Column(db.Integer, primary_key=True)
-    id_reserva = db.Column(db.String(10), nullable=False)
+    id_reserva = db.Column(db.String(40), nullable=False)
     tipo_reserva = db.Column(db.String(20), nullable=False)  # 'Grupo' ou 'Pacote'
     
     cliente_id = db.Column(db.Integer, db.ForeignKey('clientes.id', ondelete="SET NULL"), nullable=False)

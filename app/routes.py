@@ -1483,19 +1483,19 @@ def gerar_voucher(id):
     y -= 30
     
     
-    c.setFont("Helvetica", 11)
+    c.setFont("Helvetica", 9)
     c.drawString(50, y, f"Número do {reserva.tipo_reserva}:")
-    c.setFont("Helvetica-Bold", 11)
+    c.setFont("Helvetica-Bold", 9)
     c.drawString(150, y, reserva.id_reserva if reserva.id_reserva else "")
     
-    c.setFont("Helvetica", 11)
+    c.setFont("Helvetica", 9)
     c.drawString(210, y, "Confirmado por:")
-    c.setFont("Helvetica-Bold", 11)
+    c.setFont("Helvetica-Bold",9)
     c.drawString(295, y, reserva.confirmada_por if reserva.confirmada_por else "")
     
-    c.setFont("Helvetica", 11)
+    c.setFont("Helvetica", 9)
     c.drawString(420, y, "Data da Reserva:")
-    c.setFont("Helvetica-Bold", 11)
+    c.setFont("Helvetica-Bold", 9)
     data_formatada = reserva.data_reserva.strftime("%d/%m/%Y")
     c.drawString(510, y, data_formatada)
 
