@@ -256,6 +256,47 @@
             transform: translateY(-2px); /* Elevação sutil no hover */
         }  
 
+        .pagination-top {
+            display: flex;
+            flex-direction: column;
+            align-items: center;      /* Centraliza horizontalmente */
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            gap: 8px;
+            text-align: center;       /* Centraliza o texto */
+        }
+        
+        .page-info {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .page-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;   /* Centraliza os botões */
+            flex-wrap: wrap;
+        }
+        
+        .btn-pagination {
+            padding: 6px 14px;
+            font-size: 0.85rem;
+            background-color: #f0f0f0;
+            color: #333;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: background 0.2s ease;
+            min-width: 100px;
+            text-align: center;
+        }
+        
+        .btn-pagination:hover {
+            background-color: #e0e0e0;
+        }
+
+
         /* Responsividade */
         @media (max-width: 768px) {
             .list-header, .list-item {
@@ -334,15 +375,21 @@
             {% endfor %}
         </div>
 
-        <div class="pagination">
-            {% if reservas.has_prev %}
-                <a href="{{ url_for('main.listar_reserva', busca=busca, pagina=reservas.prev_num) }}" class="btn">Página Anterior</a>
-            {% endif %}
-            
-            {% if reservas.has_next %}
-                <a href="{{ url_for('main.listar_reserva', busca=busca, pagina=reservas.next_num) }}" class="btn">Próxima Página</a>
-            {% endif %}
+        <div class="pagination-top">
+            <div class="page-info">
+                Página {{ reservas.page }} de {{ reservas.pages }}
+            </div>
+            <div class="page-buttons">
+                {% if reservas.has_prev %}
+                    <a href="{{ url_for('main.listar_reserva', busca=busca, pagina=reservas.prev_num) }}" class="btn-pagination">Anterior</a>
+                {% endif %}
+                
+                {% if reservas.has_next %}
+                    <a href="{{ url_for('main.listar_reserva', busca=busca, pagina=reservas.next_num) }}" class="btn-pagination">Próxima</a>
+                {% endif %}
+            </div>
         </div>
+
 
         {% else %}
         <p>Nenhuma reserva cadastrada.</p>
