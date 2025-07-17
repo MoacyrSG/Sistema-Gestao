@@ -684,17 +684,18 @@ def get_grupo(grupo_id):
 @main.route('/listar_reserva', methods=['GET'])
 @login_required
 def listar_reserva():
-    nome_cliente = request.args.get('nome_cliente', type=int)
+    busca = request.args.get('busca', '')
     pagina = request.args.get('pagina', 1, type=int)
 
-    if nome_cliente:
-        reservas_query = Reserva.query.filter_by(nome_cliente=nome_cliente)
+    if busca:
+        reservas_query = Reserva.query.filter(Reserva.nome_cliente.ilike(f"%{busca}%"))
     else:
         reservas_query = Reserva.query
 
-    reservas = reservas_query.order_by(Reserva.id.asc()).paginate(page=pagina, per_page=5, error_out=False)
+    reservas = reservas_query.order_by(Reserva.id.desc()).paginate(page=pagina, per_page=10, error_out=False)
 
-    return render_template('listar_reserva.html', reservas=reservas, nome_cliente=nome_cliente)
+    return render_template('listar_reserva.html', reservas=reservas, busca=busca)
+
 
 
 
