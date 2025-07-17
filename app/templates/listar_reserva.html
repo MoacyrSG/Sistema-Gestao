@@ -282,19 +282,22 @@
         .btn-pagination {
             padding: 6px 14px;
             font-size: 0.85rem;
-            background-color: #f0f0f0;
-            color: #333;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            background-color: #0073e6; /* azul */
+            color: white;
+            border: none;
+            border-radius: 6px; /* arredondado suave */
             text-decoration: none;
-            transition: background 0.2s ease;
+            transition: background 0.2s ease, transform 0.2s ease;
             min-width: 100px;
             text-align: center;
+            font-weight: 500;
         }
         
         .btn-pagination:hover {
-            background-color: #e0e0e0;
+            background-color: #005bb5; /* azul mais escuro */
+            transform: scale(1.03);
         }
+
 
 
         /* Responsividade */
@@ -337,6 +340,21 @@
             <button type="submit" style="display:none;"></button>
         </form>  
 
+         <div class="pagination-top">
+            <div class="page-info">
+                Página {{ reservas.page }} de {{ reservas.pages }}
+            </div>
+            <div class="page-buttons">
+                {% if reservas.has_prev %}
+                    <a href="{{ url_for('main.listar_reserva', busca=busca, pagina=reservas.prev_num) }}" class="btn-pagination">Anterior</a>
+                {% endif %}
+                
+                {% if reservas.has_next %}
+                    <a href="{{ url_for('main.listar_reserva', busca=busca, pagina=reservas.next_num) }}" class="btn-pagination">Próxima</a>
+                {% endif %}
+            </div>
+        </div>
+
         {% if reservas %}
         <div class="list-container">
             <div class="list-header">
@@ -373,21 +391,6 @@
                 </div>
             </div>
             {% endfor %}
-        </div>
-
-        <div class="pagination-top">
-            <div class="page-info">
-                Página {{ reservas.page }} de {{ reservas.pages }}
-            </div>
-            <div class="page-buttons">
-                {% if reservas.has_prev %}
-                    <a href="{{ url_for('main.listar_reserva', busca=busca, pagina=reservas.prev_num) }}" class="btn-pagination">Anterior</a>
-                {% endif %}
-                
-                {% if reservas.has_next %}
-                    <a href="{{ url_for('main.listar_reserva', busca=busca, pagina=reservas.next_num) }}" class="btn-pagination">Próxima</a>
-                {% endif %}
-            </div>
         </div>
 
 
