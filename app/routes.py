@@ -1491,13 +1491,13 @@ def gerar_voucher(id):
     c.setFont("Helvetica", 9)
     c.drawString(210, y, "Confirmado por:")
     c.setFont("Helvetica-Bold",9)
-    c.drawString(275, y, reserva.confirmada_por if reserva.confirmada_por else "")
+    c.drawString(280, y, reserva.confirmada_por if reserva.confirmada_por else "")
     
     c.setFont("Helvetica", 9)
     c.drawString(420, y, "Data da Reserva:")
     c.setFont("Helvetica-Bold", 9)
     data_formatada = reserva.data_reserva.strftime("%d/%m/%Y")
-    c.drawString(490, y, data_formatada)
+    c.drawString(495, y, data_formatada)
 
     
     
