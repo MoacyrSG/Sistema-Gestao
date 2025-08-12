@@ -425,6 +425,11 @@
                     <label for="grupo_id">Grupo</label>
                     {{ form.grupo_id(class="form-control select2") }}
                 </div>
+
+                <div class="mb-3">
+                    <label for="tipo_apart_grupo">Tipo Apartamento</label>
+                    {{ form.tipo_apart_grupo(class="form-control select2") }}
+                </div>
             {% endif %}
             
             {% if tipo_reserva == 'pacote' %}

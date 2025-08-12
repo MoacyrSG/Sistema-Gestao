@@ -548,6 +548,23 @@ def calcular_valor_hospedagem():
 
 
 
+@main.route('/grupo/<int:grupo_id>/tipos_apartamentos')
+def get_tipos_apartamentos(grupo_id):
+    apartamentos = GrupoApartamento.query.filter_by(grupo_id=grupo_id).all()
+    result = [
+        {
+            "id": apt.id,
+            "tipo_apart": apt.tipo_apart,
+            "preco": float(apt.preco)
+        }
+        for apt in apartamentos
+    ]
+    return jsonify(result)
+
+
+
+
+
 @main.route('/cadastrar_reserva', methods=['GET', 'POST'])
 @login_required
 def cadastrar_reserva():
@@ -581,8 +598,8 @@ def cadastrar_reserva():
             nome_hospedagem_grupo = grupo.nome_hospedagem if grupo else None
             hospedagem_id_grupo = grupo.hospedagem_id if grupo else None
             
-            if grupo.tipos_apartamentos:
-                tipo_apart_grupo = ', '.join([ap.tipo_apart for ap in grupo.tipos_apartamentos])
+            tipo_apart_grupo = form.tipo_apart_grupo.data
+
           
           
         cliente = Cliente.query.get(form.cliente_id.data)  
@@ -612,7 +629,7 @@ def cadastrar_reserva():
             nome_grupo=nome_grupo,
             nome_hospedagem_grupo=nome_hospedagem_grupo,
             hospedagem_id_grupo=hospedagem_id_grupo,
-            tipo_apart_grupo=tipo_apart_grupo,
+            tipo_apart_grupo = form.tipo_apart_grupo.data if form.tipo_reserva.data == 'Grupo' else None,
             
             opcoes_pacote=opcoes_pacote,
 

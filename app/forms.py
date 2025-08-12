@@ -135,6 +135,7 @@ class ReservaForm(FlaskForm):
     hospedes = FieldList(FormField(HospedeForm), min_entries=1)
     
     grupo_id = SelectField('Grupo', choices=[], coerce=int, validators=[Optional()])
+    tipo_apart_grupo = StringField("Tipo de Apartamento", validators=[Optional()])
     
     # Campos adicionais para Pacote (exibidos quando o tipo for 'Pacote')
     companhia = StringField('Companhia Aérea', validators=[Optional()])
