@@ -776,13 +776,11 @@ def editar_reserva(id):
     cliente_choices = [(c.id, c.nome) for c in Cliente.query.order_by(Cliente.nome).all()]
     grupo_choices = [(g.id, g.nome) for g in Grupo.query.order_by(Grupo.nome).all()]
     hospedagem_choices = [(h.id, h.nome) for h in Hospedagem.query.order_by(Hospedagem.nome).all()]
-    tipo_apart_choices = [(str(t.id), t.tipo_apart) for t in GrupoApartamento.query.order_by(GrupoApartamento.tipo_apart).all()]
 
     form = ReservaForm(obj=reserva)
     form.cliente_id.choices = cliente_choices
     form.grupo_id.choices = grupo_choices
     form.hospedagem_id.choices = hospedagem_choices
-    form.tipo_apart_grupo.choices = tipo_apart_choices
     
     # Identificar se a reserva é Grupo ou Pacote
     tipo_reserva = 'grupo' if reserva.grupo_id else 'pacote'
@@ -1716,5 +1714,6 @@ def gerar_voucher(id):
     response.headers['Content-Type'] = 'application/pdf'
     response.headers['Content-Disposition'] = f'attachment; filename=voucher_{reserva.id}.pdf'
     return response
+
 
 
