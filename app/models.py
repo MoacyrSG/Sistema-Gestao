@@ -131,6 +131,20 @@ class Reserva(db.Model):
     nome_hospedagem_grupo = db.Column(db.String(100), nullable=True)
     hospedagem_id_grupo = db.Column(db.Integer, nullable=True)
     tipo_apart_grupo = db.Column(db.String(100), nullable=True)
+    
+    
+    @property
+    def nome_tipo_apart_grupo(self):
+        if not self.tipo_apart_grupo:
+            return None
+        try:
+            grupo_id = int(self.tipo_apart_grupo)
+        except ValueError:
+            return None
+        grupo_apart = GrupoApartamento.query.get(grupo_id)
+        return grupo_apart.tipo_apart if grupo_apart else None
+    
+    
     grupo = db.relationship('Grupo', backref='reservas')
     
     # Referente ao pacote aereo
