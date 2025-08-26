@@ -225,6 +225,45 @@
         $('#cep').mask('00000-000');
     });
     </script>
+
+    <script>
+        $(document).ready(function() {
+            // Inicializa os dois selects como select2
+            $('#grupo_id').select2({ placeholder: "Selecione um Grupo" });
+            $('#tipo_apart_grupo').select2({ placeholder: "Selecione um Tipo" });
+
+            // Quando o grupo for selecionado no select2
+            $('#grupo_id').on('select2:select', function(e) {
+                let grupoId = e.params.data.id; // ID do grupo selecionado
+                let $tipoSelect = $('#tipo_apart_grupo');
+
+                // Limpa o select de tipos e mostra "carregando..."
+                $tipoSelect.empty().append(new Option('Carregando...', '')).trigger('change');
+
+                // Faz a requisição AJAX para buscar os tipos de apartamento
+                $.getJSON(`/grupo/${grupoId}/tipos_apartamentos`, function(data) {
+                    $tipoSelect.empty(); // limpa opções
+                    if (data.length === 0) {
+                        $tipoSelect.append(new Option('Nenhum tipo disponível', '', false, false));
+                    } else {
+                        $tipoSelect.append(new Option('Selecione um Tipo', '', false, false));
+                        data.forEach(function(item) {
+                            let precoFormatado = Number(item.preco).toFixed(2).replace('.', ',');
+                            // transforma cada palavra para iniciar com maiúscula
+                            let tipoFormatado = item.tipo_apart
+                                .toLowerCase()
+                                .replace(/\b\w/g, function(letra) { return letra.toUpperCase(); });
+
+                            $tipoSelect.append(new Option(`${tipoFormatado}`, item.id));
+                        });
+                    }
+                    $tipoSelect.trigger('change'); // atualiza select2
+                }).fail(function() {
+                    $tipoSelect.empty().append(new Option('Erro ao carregar', '', false, false)).trigger('change');
+                });
+            });
+        });
+    </script>
     
 </head>
 <body>
@@ -371,3 +410,4 @@
     </main>
 </body>
 </html>
+
