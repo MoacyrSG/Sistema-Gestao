@@ -784,6 +784,9 @@ def editar_reserva(id):
     
     # Identificar se a reserva é Grupo ou Pacote
     tipo_reserva = 'grupo' if reserva.grupo_id else 'pacote'
+
+    if tipo_reserva == 'grupo':
+        form.tipo_apart_grupo.data = reserva.tipo_apart_grupo
     
     if isinstance(reserva.opcoes_pacote, str):  # Garante que seja string antes de processar
         opcoes_pacote = reserva.opcoes_pacote.strip('{}').split(',') if reserva.opcoes_pacote else []
@@ -816,6 +819,9 @@ def editar_reserva(id):
 
         cliente = Cliente.query.get(form.cliente_id.data)
         reserva.nome_cliente = cliente.nome if cliente else ''
+
+        if tipo_reserva == 'Grupo':
+            reserva.tipo_apart_grupo = form.tipo_apart_grupo.data
         
         db.session.commit()
         flash('Reserva atualizada com sucesso!', 'success')
@@ -1701,3 +1707,4 @@ def gerar_voucher(id):
     response.headers['Content-Type'] = 'application/pdf'
     response.headers['Content-Disposition'] = f'attachment; filename=voucher_{reserva.id}.pdf'
     return response
+
