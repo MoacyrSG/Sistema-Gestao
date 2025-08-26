@@ -1397,15 +1397,24 @@ def gerar_voucher(id):
     c.drawString(250, y, "Tipo de Apartamento:")
 
     # Definindo o valor a ser exibido
-    if reserva.tipo_reserva == 'Grupo':
-        tipo_apartamento = reserva.tipo_apart_grupo.capitalize()
-    elif reserva.tipo_reserva == 'Pacote':
-        tipo_apartamento = reserva.tipo_apart.capitalize()
-    else:
-        tipo_apartamento = ""
+    tipo_apartamento = ""
 
+    if reserva.tipo_reserva == 'Grupo' and reserva.tipo_apart_grupo:
+        try:
+            grupo_id = int(reserva.tipo_apart_grupo)
+            grupo_apart = GrupoApartamento.query.get(grupo_id)
+            if grupo_apart:
+                tipo_apartamento = grupo_apart.tipo_apart
+        except ValueError:
+            tipo_apartamento = None
+
+    elif reserva.tipo_reserva == 'Pacote' and reserva.tipo_apart:
+        tipo_apartamento = reserva.tipo_apart.capitalize()
+
+    # Exibindo no PDF
     c.setFont("Helvetica-Bold", 11)
     c.drawString(360, y, tipo_apartamento if tipo_apartamento else "Não informado")
+
 
     c.setFont("Helvetica", 11)
     c.drawString(420, y, "Pensão:")
