@@ -345,7 +345,7 @@
                                     <strong>Valor:</strong> R$ {{ "{:,.2f}".format(reserva.valor_total) }}&emsp;
                                     <strong>Data da Ida:</strong> {{ reserva.data_ida.strftime('%d/%m/%Y') }}&emsp;
                                     <strong>Data da Volta:</strong> {{ reserva.data_volta.strftime('%d/%m/%Y') }}&emsp;
-                                    <strong>Lucro:</strong> {{ "{:,.2f}".format(reserva.lucro) }}
+                                    <strong>Lucro:</strong> {{ "{:,.2f}".format(reserva.lucro) if reserva.lucro is not none else "0,00" }}
                                 </td>
                             </tr>
                         {% endfor %}
@@ -356,3 +356,4 @@
     </main>
 </body>
 </html>
+
