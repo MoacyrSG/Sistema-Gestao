@@ -425,17 +425,22 @@
                     <label for="grupo_id">Grupo</label>
                     {{ form.grupo_id(class="form-control select2") }}
                 </div>
-
+                
                 <div class="form-group mt-3">
                     <label for="tipo_apart_grupo">Tipo de Apartamento</label>
-                    <input class="form-control" list="tipos_apart" id="tipo_apart_grupo" name="tipo_apart_grupo">
-                    <datalist id="tipos_apart">
-                        {% for tipo in tipos_apartamentos %}
-                            <option data-id="{{ tipo.id }}" value="{{ tipo.tipo_apart }}"></option>
-                        {% endfor %}
-                    </datalist>
+                    <select class="form-control" name="tipo_apart_grupo" id="tipo_apart_grupo">
+                        <option value="">Selecione um Tipo</option>
+                        {% if tipos_apartamentos %}
+                            {% for tipo in tipos_apartamentos %}
+                                <option value="{{ tipo.id }}" {% if reserva.tipo_apart_grupo == tipo.id %}selected{% endif %}>
+                                    {{ tipo.tipo_apart }}
+                                </option>
+                            {% endfor %}
+                        {% endif %}
+                    </select>
                 </div>
-            {% endif %}
+                {% endif %}
+
             
             {% if tipo_reserva == 'pacote' %}
             
@@ -556,5 +561,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
 
 
