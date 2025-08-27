@@ -317,6 +317,48 @@
       });
     </script>
 
+
+    <script>
+        $(document).ready(function() {
+            $('#grupo_id').select2({ placeholder: "Selecione um Grupo" });
+            $('#tipo_apart_grupo').select2({ placeholder: "Selecione um Tipo" });
+        
+            function carregarTipos(grupoId, selectedId = null) {
+                let $tipoSelect = $('#tipo_apart_grupo');
+                $tipoSelect.empty().append(new Option('Carregando...', '')).trigger('change');
+        
+                $.getJSON(`/grupo/${grupoId}/tipos_apartamentos`, function(data) {
+                    $tipoSelect.empty();
+                    $tipoSelect.append(new Option('Selecione um Tipo', '', false, false));
+        
+                    data.forEach(function(item) {
+                        let option = new Option(item.tipo_apart, item.id, false, false);
+                        if (selectedId && selectedId == item.id) {
+                            option.selected = true;
+                        }
+                        $tipoSelect.append(option);
+                    });
+                    $tipoSelect.trigger('change');
+                }).fail(function() {
+                    $tipoSelect.empty().append(new Option('Erro ao carregar', '', false, false)).trigger('change');
+                });
+            }
+        
+            // Se já houver um grupo selecionado (editar), carrega os tipos
+            let grupoSelecionado = $('#grupo_id').val();
+            let tipoSelecionado = $('#tipo_apart_grupo').val();
+            if (grupoSelecionado) {
+                carregarTipos(grupoSelecionado, tipoSelecionado);
+            }
+        
+            $('#grupo_id').on('select2:select', function(e) {
+                let grupoId = e.params.data.id;
+                carregarTipos(grupoId);
+            });
+        });
+        </script>
+
+
 </head>
 
 <body>
@@ -561,6 +603,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
 
 
 
