@@ -827,8 +827,15 @@ def editar_reserva(id):
         cliente = Cliente.query.get(form.cliente_id.data)
         reserva.nome_cliente = cliente.nome if cliente else ''
 
-        if tipo_reserva == 'Grupo':
-            reserva.tipo_apart_grupo = form.tipo_apart_grupo.data
+        if tipo_reserva == 'grupo':
+            tipo_nome = form.tipo_apart_grupo.data.strip()  # texto digitado
+            grupo_id = form.grupo_id.data                   # id do grupo selecionado
+            
+            tipo = GrupoApartamento.query.filter_by(grupo_id=grupo_id, tipo_apart=tipo_nome).first()
+            if tipo:
+                reserva.tipo_apart_grupo = tipo.id  # salva o id
+            else:
+                flash("Tipo de apartamento inválido para este grupo.", "danger")
         
         db.session.commit()
         flash('Reserva atualizada com sucesso!', 'success')
@@ -1714,6 +1721,7 @@ def gerar_voucher(id):
     response.headers['Content-Type'] = 'application/pdf'
     response.headers['Content-Disposition'] = f'attachment; filename=voucher_{reserva.id}.pdf'
     return response
+
 
 
 
