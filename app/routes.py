@@ -785,15 +785,9 @@ def editar_reserva(id):
     # Identificar se a reserva é Grupo ou Pacote
     tipo_reserva = 'grupo' if reserva.grupo_id else 'pacote'
 
-    nome_tipo_apart_grupo = None
-    if tipo_reserva == 'Grupo' and reserva.tipo_apart_grupo:
-        try:
-            grupo_id = int(reserva.tipo_apart_grupo)
-            grupo_apart = GrupoApartamento.query.get(grupo_id)
-            if grupo_apart:
-                nome_tipo_apart_grupo = grupo_apart.tipo_apart
-        except ValueError:
-            nome_tipo_apart_grupo = None
+    tipos_apartamentos = []
+    if tipo_reserva == 'grupo' and reserva.grupo_id:
+        tipos_apartamentos = GrupoApartamento.query.filter_by(grupo_id=reserva.grupo_id).all()
     
     if isinstance(reserva.opcoes_pacote, str):  # Garante que seja string antes de processar
         opcoes_pacote = reserva.opcoes_pacote.strip('{}').split(',') if reserva.opcoes_pacote else []
@@ -827,13 +821,13 @@ def editar_reserva(id):
         cliente = Cliente.query.get(form.cliente_id.data)
         reserva.nome_cliente = cliente.nome if cliente else ''
 
-        if tipo_reserva == 'grupo':
-            tipo_nome = form.tipo_apart_grupo.data.strip()  # texto digitado
-            grupo_id = form.grupo_id.data                   # id do grupo selecionado
-            
-            tipo = GrupoApartamento.query.filter_by(grupo_id=grupo_id, tipo_apart=tipo_nome).first()
+        if tipo_reserva == 'grupo' and form.grupo_id.data:
+            tipo = GrupoApartamento.query.filter_by(
+                grupo_id=form.grupo_id.data,
+                id=form.tipo_apart_grupo.data  # já vem o id do select2
+            ).first()
             if tipo:
-                reserva.tipo_apart_grupo = tipo.id  # salva o id
+                reserva.tipo_apart_grupo = tipo.id
             else:
                 flash("Tipo de apartamento inválido para este grupo.", "danger")
         
@@ -844,7 +838,7 @@ def editar_reserva(id):
         print("❌ Erros no formulário:")
         print(form.errors)
 
-    return render_template('editar_reserva.html', form=form, reserva=reserva, tipo_reserva=tipo_reserva, opcoes_pacote=opcoes_pacote)
+    return render_template('editar_reserva.html', form=form, reserva=reserva, tipo_reserva=tipo_reserva, opcoes_pacote=opcoes_pacote, tipos_apartamentos=tipos_apartamentos)
 
 
 @main.route('/excluir_reserva/<int:id>', methods=['POST'])
@@ -1721,6 +1715,7 @@ def gerar_voucher(id):
     response.headers['Content-Type'] = 'application/pdf'
     response.headers['Content-Disposition'] = f'attachment; filename=voucher_{reserva.id}.pdf'
     return response
+
 
 
 
