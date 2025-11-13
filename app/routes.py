@@ -807,7 +807,14 @@ def editar_reserva(id):
 
     
     if form.validate_on_submit():
-        form.populate_obj(reserva)
+        reserva.hospedes.clear()
+
+        # Recria hóspedes com base no formulário
+        for hospede_form in form.hospedes.entries:
+            nome = hospede_form.data.get('nome')
+            if nome:  # evita adicionar vazio
+                novo_hospede = Hospede(nome=nome)
+                reserva.hospedes.append(novo_hospede)
         
         reserva.evento = True if form.evento.data == 'sim' else False
         reserva.garante_no_show = True if form.garante_no_show.data == 'sim' else False
@@ -835,8 +842,21 @@ def editar_reserva(id):
         flash('Reserva atualizada com sucesso!', 'success')
         return redirect(url_for('main.listar_reserva'))
     else:
-        print("❌ Erros no formulário:")
-        print(form.errors)
+        # Se houver erros no POST, exibe no console
+        if request.method == 'POST':
+            print("❌ Erros no formulário:")
+            print(form.errors)
+
+        # --- Quando for uma requisição GET (abrir página) ---
+        if request.method == 'GET':
+            # Preenche os campos simples
+            form.descricao.data = reserva.descricao
+
+            # Preenche os hóspedes existentes
+            form.hospedes.entries = []  # limpa qualquer entrada antiga
+            for hospede in reserva.hospedes:
+                form.hospedes.append_entry({'nome': hospede.nome})
+
 
     return render_template('editar_reserva.html', form=form, reserva=reserva, tipo_reserva=tipo_reserva, opcoes_pacote=opcoes_pacote, tipos_apartamentos=tipos_apartamentos)
 
@@ -1715,6 +1735,7 @@ def gerar_voucher(id):
     response.headers['Content-Type'] = 'application/pdf'
     response.headers['Content-Disposition'] = f'attachment; filename=voucher_{reserva.id}.pdf'
     return response
+
 
 
 
