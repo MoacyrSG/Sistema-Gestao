@@ -281,18 +281,24 @@
         
         function adicionarHospede() {
             const hospedesList = document.getElementById('hospedes-list');
-            const newIndex = hospedesList.querySelectorAll('.hospede-item').length;
+            const lastIndexInput = document.getElementById('hospedes-last-index');
+        
+            // Recupera o índice atual e incrementa
+            let index = parseInt(lastIndexInput.value);
+            lastIndexInput.value = index + 1;
+        
+            // Token CSRF
             const csrfToken = "{{ form.csrf_token._value() }}";
         
+            // Cria novo hóspede com o índice correto
             const template = `
                 <div class="hospede-item mb-2">
-                    <input type="hidden" name="hospedes-${newIndex}-csrf_token" value="${csrfToken}">
-                    <label for="hospedes-${newIndex}-nome">Nome</label>
-                    <input type="text" name="hospedes-${newIndex}-nome" id="hospedes-${newIndex}-nome" class="form-control" required>
+                    <input type="hidden" name="hospedes-${index}-csrf_token" value="${csrfToken}">
+                    <label for="hospedes-${index}-nome">Nome</label>
+                    <input type="text" name="hospedes-${index}-nome" id="hospedes-${index}-nome" class="form-control" required>
                     <button type="button" class="btn btn-danger mt-1" onclick="removerHospede(this)">Remover</button>
                 </div>
             `;
-            
             hospedesList.insertAdjacentHTML('beforeend', template);
             atualizarTotalHospedes();
         }
@@ -615,6 +621,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
 
 
 
