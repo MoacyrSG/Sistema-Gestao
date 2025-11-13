@@ -274,29 +274,35 @@
     </script>
 
     <script>
+        function atualizarTotalHospedes() {
+            const total = document.querySelectorAll('.hospede-item').length;
+            document.getElementById('total-hospedes').value = total;
+        }
+        
         function adicionarHospede() {
             const hospedesList = document.getElementById('hospedes-list');
-            const totalForms = hospedesList.querySelectorAll('.hospede-item').length;
-            const newIndex = totalForms;
-            
+            const newIndex = hospedesList.querySelectorAll('.hospede-item').length;
+            const csrfToken = "{{ form.csrf_token._value() }}";
+        
             const template = `
                 <div class="hospede-item mb-2">
-                    <input type="hidden" name="hospedes-${newIndex}-csrf_token" value="{{ form.csrf_token._value() }}">
-                    
+                    <input type="hidden" name="hospedes-${newIndex}-csrf_token" value="${csrfToken}">
                     <label for="hospedes-${newIndex}-nome">Nome</label>
                     <input type="text" name="hospedes-${newIndex}-nome" id="hospedes-${newIndex}-nome" class="form-control" required>
-                    
                     <button type="button" class="btn btn-danger mt-1" onclick="removerHospede(this)">Remover</button>
                 </div>
             `;
             
             hospedesList.insertAdjacentHTML('beforeend', template);
+            atualizarTotalHospedes();
         }
-    
+        
         function removerHospede(button) {
             button.closest('.hospede-item').remove();
+            atualizarTotalHospedes();
         }
     </script>
+
 
     <script>
         $(document).ready(function () {
@@ -446,17 +452,20 @@
                 <label for="descricao">Informações Adicionais</label>
                 {{ form.descricao(class="form-control") }}
             </div>
+            
+            <input type="hidden" id="total-hospedes" name="hospedes-min_entries" value="{{ form.hospedes|length }}">
+
             <div class="mb-3" id="hospedes-list">
                 {% for subform in form.hospedes %}
                     <div class="hospede-item mb-2">
                         {{ subform.hidden_tag() }}
-                        {{ subform.nome.label }} 
+                        {{ subform.nome.label }}
                         {{ subform.nome(class="form-control") }}
                         <button type="button" class="btn btn-danger mt-1" onclick="removerHospede(this)">Remover</button>
                     </div>
                 {% endfor %}
             </div>
-
+            
             <button type="button" class="btn btn-primary" onclick="adicionarHospede()">Adicionar Hóspede</button>
 
             <div class="mb-3">
@@ -606,6 +615,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
 
 
 
