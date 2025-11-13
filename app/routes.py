@@ -843,18 +843,17 @@ def editar_reserva(id):
         db.session.commit()
         flash('Reserva atualizada com sucesso!', 'success')
         return redirect(url_for('main.listar_reserva'))
-    else:
-        # Se houver erros no POST, exibe no console
-        if request.method == 'POST':
-            print("❌ Erros no formulário:")
-            print(form.errors)
+        
+    # --- DEBUG DE ERROS ---
+    elif request.method == 'POST':
+        print("❌ Erros no formulário:")
+        print(form.errors)
 
-        # --- Quando for uma requisição GET (abrir página) ---
-        if request.method == 'GET':
-            # Preenche os hóspedes existentes
-            form.hospedes.entries = []  # limpa qualquer entrada antiga
-            for hospede in reserva.hospedes:
-                form.hospedes.append_entry({'nome': hospede.nome})
+    # --- GET (carregar a tela) ---
+    if request.method == 'GET':
+        form.hospedes.entries = []
+        for hospede in reserva.hospedes:
+            form.hospedes.append_entry({'nome': hospede.nome})
 
 
     return render_template('editar_reserva.html', form=form, reserva=reserva, tipo_reserva=tipo_reserva, opcoes_pacote=opcoes_pacote, tipos_apartamentos=tipos_apartamentos)
@@ -1734,6 +1733,7 @@ def gerar_voucher(id):
     response.headers['Content-Type'] = 'application/pdf'
     response.headers['Content-Disposition'] = f'attachment; filename=voucher_{reserva.id}.pdf'
     return response
+
 
 
 
