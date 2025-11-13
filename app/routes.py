@@ -807,15 +807,16 @@ def editar_reserva(id):
 
     
     if form.validate_on_submit():
-        # Limpa hóspedes antigos antes de adicionar os novos
+        # Remove hóspedes antigos
         Hospede.query.filter_by(reserva_id=reserva.id).delete()
-
-        # Adiciona novamente os hóspedes informados
+    
+        # Adiciona os novos hóspedes informados
         for hospede_form in form.hospedes.entries:
             nome = hospede_form.data.get('nome')
             if nome:
                 novo_hospede = Hospede(nome=nome, reserva_id=reserva.id)
                 db.session.add(novo_hospede)
+
         
         reserva.evento = True if form.evento.data == 'sim' else False
         reserva.garante_no_show = True if form.garante_no_show.data == 'sim' else False
@@ -1733,6 +1734,7 @@ def gerar_voucher(id):
     response.headers['Content-Type'] = 'application/pdf'
     response.headers['Content-Disposition'] = f'attachment; filename=voucher_{reserva.id}.pdf'
     return response
+
 
 
 
